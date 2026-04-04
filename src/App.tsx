@@ -59,7 +59,7 @@ const App: React.FC = () => {
       accentColor: "border-[#B37455]/20",
       subtitle: "Iron-rich foods",
       cardSummary: "Lower energy, focus on inward reflection and deep nourishment.",
-      focusOn: ["Iron-rich foods", "Vitamin C", "Warm liquids"],
+      focusOn: ["Iron", "Vitamin C", "Magnesium"],
       avoid: ["Caffeine", "Cold foods", "Excessive salt"],
       moodTitle: "Nourish your body with iron & comfort",
       moodTips: [
@@ -88,7 +88,7 @@ const App: React.FC = () => {
       accentColor: "border-[#CEAF4E]/20",
       subtitle: "Estrogen-progesterone balance",
       cardSummary: "Rising energy, preparing for ovulation with fresh, vibrant inputs.",
-      focusOn: ["Fiber-rich foods", "Nutrient-dense energy", "Probiotics"],
+      focusOn: ["Vitamin C", "Vitamin K", "Vitamin E"],
       avoid: ["Alcohol", "Xenoestrogens", "Heavy fats"],
       moodTitle: "Build energy & support estrogen metabolism",
       moodTips: [
@@ -117,7 +117,7 @@ const App: React.FC = () => {
       accentColor: "border-[#8AA773]/20",
       subtitle: "Boost protein for vitality",
       cardSummary: "Peak fertility and maximum social energy. Stay light and active.",
-      focusOn: ["High-protein foods", "Antioxidants", "Hydrating fruits"],
+      focusOn: ["Zinc"],
       avoid: ["Heavy grains", "Processed sugar", "Excessive caffeine"],
       moodTitle: "Maximize vitality & support peak energy",
       moodTips: [
@@ -146,7 +146,7 @@ const App: React.FC = () => {
       accentColor: "border-[#7C9FC3]/20",
       subtitle: "Support your mood with nutrients",
       cardSummary: "Metabolic rate increases. Focus on stabilizing blood sugar.",
-      focusOn: ["High-fiber carbs", "Magnesium-rich foods", "Healthy fats"],
+      focusOn: ["Vitamin D", "Calcium", "Zinc", "Curcumin", "Magnesium"],
       avoid: ["Processed junk food", "High salt", "Refined sugar"],
       moodTitle: "Manage appetite & mood naturally",
       moodTips: [
@@ -306,7 +306,7 @@ const App: React.FC = () => {
       </p>
       
       <div className="flex flex-wrap gap-1.5">
-        {phase.focusOn.slice(0, 2).map((item: string, i: number) => (
+        {phase.focusOn.map((item: string, i: number) => (
           <span key={i} className={`text-[9px] font-black uppercase px-2 py-1 rounded-lg ${isActive ? 'bg-white/10' : 'bg-slate-50 text-slate-400'}`}>
             + {item}
           </span>
