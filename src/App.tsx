@@ -8,8 +8,6 @@ import {
   Sparkles, 
   Moon, 
   ChevronLeft, 
-  AlertCircle, 
-  CheckCircle2,
   Activity
 } from 'lucide-react';
 
@@ -419,49 +417,29 @@ const App: React.FC = () => {
               <div className={`absolute top-0 right-0 w-96 h-96 ${currentPhase.lightColor} blur-[120px] -mr-48 -mt-48 transition-colors duration-1000`}></div>
               
               <div className="relative">
-                <div className="flex items-center justify-between mb-10">
-                  <div>
-                    <h2 className={`text-4xl font-black text-slate-900 mb-1`}>{currentPhase.name} Phase</h2>
-                    <p className={`font-bold text-xl ${currentPhase.textColor} transition-colors duration-700`}>{currentPhase.subtitle}</p>
+                <div className="flex items-start justify-between mb-12 gap-6">
+                  <div className="flex-1">
+                    <h2 className={`text-5xl font-black text-slate-900 mb-2`}>{currentPhase.name} Phase</h2>
+                    <p className={`font-bold text-xl ${currentPhase.textColor} transition-colors duration-700 mb-4`}>{currentPhase.subtitle}</p>
+                    <p className="text-slate-600 font-medium leading-relaxed max-w-xl mb-6">
+                      {currentPhase.cardSummary}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                       {currentPhase.focusOn.map((item: string, i: number) => (
+                         <span key={i} className={`text-[10px] font-black uppercase px-3 py-1.5 rounded-xl border ${currentPhase.lightColor} ${currentPhase.textColor} ${currentPhase.accentColor}`}>
+                           + {item}
+                         </span>
+                       ))}
+                    </div>
                   </div>
-                  <div className={`${currentPhase.lightColor} w-20 h-20 rounded-[2.5rem] flex items-center justify-center border-4 border-white shadow-sm transition-colors duration-700`}>
-                     {currentPhaseKey === 'menstrual' && <Droplet className="w-10 h-10 text-[#B37455]" />}
-                     {currentPhaseKey === 'follicular' && <Sparkles className="w-10 h-10 text-[#CEAF4E]" />}
-                     {currentPhaseKey === 'ovulation' && <Sun className="w-10 h-10 text-[#8AA773]" />}
-                     {currentPhaseKey === 'luteal' && <Moon className="w-10 h-10 text-[#7C9FC3]" />}
+                  <div className={`${currentPhase.lightColor} w-24 h-24 rounded-[3rem] flex items-center justify-center border-4 border-white shadow-sm transition-colors duration-700 shrink-0`}>
+                     {currentPhaseKey === 'menstrual' && <Droplet className="w-12 h-12 text-[#B37455]" />}
+                     {currentPhaseKey === 'follicular' && <Sparkles className="w-12 h-12 text-[#CEAF4E]" />}
+                     {currentPhaseKey === 'ovulation' && <Sun className="w-12 h-12 text-[#8AA773]" />}
+                     {currentPhaseKey === 'luteal' && <Moon className="w-12 h-12 text-[#7C9FC3]" />}
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-                  <div className="p-7 bg-emerald-50/50 rounded-[2.5rem] border border-emerald-100 shadow-sm hover:shadow-md transition-shadow">
-                    <div className="flex items-center gap-3 mb-5 text-emerald-600">
-                      <div className="p-1.5 bg-white rounded-lg shadow-sm"><CheckCircle2 className="w-4 h-4" /></div>
-                      <span className="text-xs font-black uppercase tracking-[0.2em]">Key Focus</span>
-                    </div>
-                    <ul className="space-y-2.5">
-                      {currentPhase.focusOn.map((item: string, i: number) => (
-                        <li key={i} className="text-[13px] font-bold text-emerald-900 flex items-center gap-2">
-                          <div className="w-1 h-1 bg-emerald-300 rounded-full"></div>
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="p-7 bg-rose-50/50 rounded-[2.5rem] border border-rose-100 shadow-sm hover:shadow-md transition-shadow">
-                    <div className="flex items-center gap-3 mb-5 text-rose-600">
-                      <div className="p-1.5 bg-white rounded-lg shadow-sm"><AlertCircle className="w-4 h-4" /></div>
-                      <span className="text-xs font-black uppercase tracking-[0.2em]">Minimize</span>
-                    </div>
-                    <ul className="space-y-2.5">
-                      {currentPhase.avoid.map((item: string, i: number) => (
-                        <li key={i} className="text-[13px] font-bold text-rose-900 flex items-center gap-2">
-                          <div className="w-1 h-1 bg-rose-300 rounded-full"></div>
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
 
                 <div className="mb-10">
                    <h4 className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-400 mb-6 flex items-center gap-3">
