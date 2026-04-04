@@ -8,7 +8,10 @@ import {
   Sparkles, 
   Moon, 
   ChevronLeft, 
-  Activity
+  Activity,
+  Target,
+  ShieldAlert,
+  Zap
 } from 'lucide-react';
 
 const App: React.FC = () => {
@@ -43,7 +46,7 @@ const App: React.FC = () => {
       }
     };
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [selectedPhase, isCalendarOpen]);
 
   const cycleData = {
@@ -56,6 +59,10 @@ const App: React.FC = () => {
       lightColor: "bg-[#B37455]/10",
       accentColor: "border-[#B37455]/20",
       subtitle: "Iron-rich foods",
+      summaryText: "Replace lost iron and focus on deep nourishment.",
+      focusItems: ["Iron-rich foods + Vitamin C", "Nutrient-dense lean proteins and whole grains", "Leafy greens", "Warming food"],
+      avoidItems: ["Processed food", "Alcohol", "Fizzy drinks", "Spicy food", "Sugar"],
+      otherItems: [],
       cardSummary: "Focus on: Iron-rich foods + vitamin C. Nutrient-dense foods (lean proteins, and whole grains) + leafy greens. Warming food. Avoid: Processed food, alcohol, fizzy drinks, spicy food and sugar.",
       focusOn: ["Iron", "Vitamin C", "Magnesium"],
       avoid: ["Processed food", "Alcohol", "Fizzy drinks", "Spicy food", "Sugar"],
@@ -85,7 +92,11 @@ const App: React.FC = () => {
       lightColor: "bg-[#CEAF4E]/10",
       accentColor: "border-[#CEAF4E]/20",
       subtitle: "Estrogen-progesterone balance",
-      cardSummary: "Foods to focus on: Fiber-reach foods, Nutrient-dense foods, Energy-boosting foods. Other: Manage stress, Reduces xenoestrogens (BPA), Reduce body fat, Limit alcohol, Sleep.",
+      summaryText: "Support rising energy and follicle growth.",
+      focusItems: ["Fiber-reach foods", "Nutrient-dense foods", "Energy-boosting foods"],
+      avoidItems: [],
+      otherItems: ["Manage stress", "Reduces xenoestrogens (BPA)", "Reduce body fat", "Limit alcohol", "Sleep"],
+      cardSummary: "Focus on: Fiber-reach foods, Nutrient-dense foods, Energy-boosting foods. Other: Manage stress, Reduces xenoestrogens (BPA), Reduce body fat, Limit alcohol, Sleep.",
       focusOn: ["Vitamin C", "Vitamin K", "Vitamin E"],
       avoid: ["Stress", "Xenoestrogens (BPA)", "Excessive body fat", "Alcohol", "Lack of sleep"],
       moodTitle: "Build energy & support estrogen metabolism",
@@ -114,7 +125,11 @@ const App: React.FC = () => {
       lightColor: "bg-[#8AA773]/10",
       accentColor: "border-[#8AA773]/20",
       subtitle: "Boost protein for vitality",
-      cardSummary: "Foods to focus on: High-protein foods (lean meat and tofu), plenty of fresh vegetables and greens to boost fiber intake, zinc-reach foods. Ideal for high-intensity workouts.",
+      summaryText: "Maximize peak energy and support the luteinizing hormone surge.",
+      focusItems: ["High-protein foods (lean meat and tofu)", "Fresh vegetables and greens to boost fiber intake", "Zinc-reach foods"],
+      avoidItems: [],
+      otherItems: ["Ideal for high-intensity workouts"],
+      cardSummary: "Focus on: High-protein foods (lean meat and tofu), plenty of fresh vegetables and greens to boost fiber intake, zinc-reach foods. Ideal for high-intensity workouts.",
       focusOn: ["Zinc"],
       avoid: ["Heavy grains", "Processed sugar", "Excessive caffeine"],
       moodTitle: "Maximize vitality & support peak energy",
@@ -143,7 +158,11 @@ const App: React.FC = () => {
       lightColor: "bg-[#7C9FC3]/10",
       accentColor: "border-[#7C9FC3]/20",
       subtitle: "Support your mood with nutrients",
-      cardSummary: "Low energy, increased appetite. Foods to focus on: High-fiber carbs, High-protein breakfasts, Magnesium-reach foods. Avoid: Processed junk food (especially before periods).",
+      summaryText: "Low energy, increased appetite.",
+      focusItems: ["High-fiber carbs", "High-protein breakfasts", "Magnesium-reach foods (dark chocolate, nuts, whole grains, fresh fruits, veggies)"],
+      avoidItems: ["Processed junk food (especially before periods)"],
+      otherItems: [],
+      cardSummary: "Low energy, increased appetite. Focus on: High-fiber carbs, High-protein breakfasts, Magnesium-reach foods. Avoid: Processed junk food (especially before periods).",
       focusOn: ["Vitamin D", "Calcium", "Zinc", "Curcumin", "Magnesium"],
       avoid: ["Processed junk food", "High salt", "Refined sugar"],
       moodTitle: "Manage appetite & mood naturally",
@@ -280,6 +299,53 @@ const App: React.FC = () => {
     );
   };
 
+  const InstructionCard: React.FC<{ title: string; items: string[]; type: 'focus' | 'avoid' | 'other' }> = ({ title, items, type }) => {
+    if (items.length === 0) return null;
+    
+    const styles = {
+      focus: {
+        bg: "bg-emerald-50/50",
+        border: "border-emerald-100",
+        text: "text-emerald-900",
+        iconContainer: "bg-emerald-500",
+        icon: <Target className="w-4 h-4 text-white" />
+      },
+      avoid: {
+        bg: "bg-rose-50/50",
+        border: "border-rose-100",
+        text: "text-rose-900",
+        iconContainer: "bg-rose-500",
+        icon: <ShieldAlert className="w-4 h-4 text-white" />
+      },
+      other: {
+        bg: "bg-amber-50/50",
+        border: "border-amber-100",
+        text: "text-amber-900",
+        iconContainer: "bg-amber-500",
+        icon: <Zap className="w-4 h-4 text-white" />
+      }
+    }[type];
+
+    return (
+      <div className={`p-8 rounded-[2.5rem] border ${styles.bg} ${styles.border} shadow-sm group hover:shadow-xl transition-all duration-500`}>
+        <div className="flex items-center gap-4 mb-6">
+          <div className={`w-8 h-8 rounded-xl flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform ${styles.iconContainer}`}>
+            {styles.icon}
+          </div>
+          <h4 className="text-[12px] font-black uppercase tracking-[0.2em] text-slate-700">{title}</h4>
+        </div>
+        <ul className="space-y-3">
+          {items.map((item, i) => (
+            <li key={i} className={`text-[14px] font-bold ${styles.text} flex items-start gap-3`}>
+              <div className={`w-1.5 h-1.5 rounded-full mt-1.5 shrink-0 opacity-40 ${styles.iconContainer}`}></div>
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
+
   const radius = 90;
   const circumference = 2 * Math.PI * radius;
   const getStrokeDash = (days: number) => (days / 28) * circumference;
@@ -299,7 +365,7 @@ const App: React.FC = () => {
           DAYS {phase.days[0]}-{phase.days[1]}
         </span>
       </div>
-      <p className={`text-[11px] font-medium leading-relaxed mb-4 ${isActive ? 'text-white/90' : 'text-slate-500'}`}>
+      <p className={`text-[11px] font-medium leading-relaxed mb-4 whitespace-pre-line ${isActive ? 'text-white/90' : 'text-slate-500'}`}>
         {phase.cardSummary}
       </p>
       
@@ -416,13 +482,13 @@ const App: React.FC = () => {
             <section className="bg-white p-12 rounded-[4rem] shadow-sm border border-slate-100 min-h-full flex flex-col relative overflow-hidden">
               <div className={`absolute top-0 right-0 w-96 h-96 ${currentPhase.lightColor} blur-[120px] -mr-48 -mt-48 transition-colors duration-1000`}></div>
               
-              <div className="relative">
+              <div className="relative flex-grow">
                 <div className="flex items-start justify-between mb-12 gap-6">
                   <div className="flex-1">
                     <h2 className={`text-5xl font-black text-slate-900 mb-2`}>{currentPhase.name} Phase</h2>
                     <p className={`font-bold text-xl ${currentPhase.textColor} transition-colors duration-700 mb-4`}>{currentPhase.subtitle}</p>
-                    <p className="text-slate-600 font-medium leading-relaxed max-w-xl mb-6">
-                      {currentPhase.cardSummary}
+                    <p className="text-slate-600 font-bold leading-relaxed max-w-xl mb-6">
+                      {currentPhase.summaryText}
                     </p>
                     <div className="flex flex-wrap gap-2">
                        {currentPhase.focusOn.map((item: string, i: number) => (
@@ -440,8 +506,13 @@ const App: React.FC = () => {
                   </div>
                 </div>
 
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                   <InstructionCard title="Focus On" items={currentPhase.focusItems} type="focus" />
+                   <InstructionCard title="Limit / Avoid" items={currentPhase.avoidItems} type="avoid" />
+                   <InstructionCard title="Daily Habits" items={currentPhase.otherItems} type="other" />
+                </div>
 
-                <div className="mb-10">
+                <div className="mb-12">
                    <h4 className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-400 mb-6 flex items-center gap-3">
                      <Utensils className="w-3 h-3" /> Suggested Daily Menu
                    </h4>
@@ -454,14 +525,14 @@ const App: React.FC = () => {
                     ))}
                   </div>
                 </div>
-
-                <button 
-                  onClick={() => setSelectedPhase(currentPhase)}
-                  className={`w-full py-7 rounded-[2.5rem] font-black text-white ${currentPhase.bgClass} shadow-2xl hover:brightness-105 hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-3 text-lg mb-4`}
-                >
-                  Full Phase Deep Dive <ChevronRight className="w-6 h-6" />
-                </button>
               </div>
+
+              <button 
+                onClick={() => setSelectedPhase(currentPhase)}
+                className={`w-full py-7 rounded-[2.5rem] font-black text-white ${currentPhase.bgClass} shadow-2xl hover:brightness-105 hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-3 text-lg mt-auto`}
+              >
+                Full Phase Deep Dive <ChevronRight className="w-6 h-6" />
+              </button>
             </section>
           </div>
         </div>
