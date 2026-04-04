@@ -295,9 +295,9 @@ const App: React.FC = () => {
           : 'bg-white border-slate-100 hover:border-slate-200 hover:shadow-lg'
       }`}
     >
-      <div className="flex justify-between items-start mb-2">
-        <h3 className="font-black text-sm uppercase tracking-wider">{phase.name}</h3>
-        <span className={`text-[9px] font-black px-2 py-1 rounded-full ${isActive ? 'bg-white/20' : 'bg-slate-100 text-slate-500'}`}>
+      <div className="mb-3">
+        <h3 className="font-black text-sm uppercase tracking-wider mb-1">{phase.name}</h3>
+        <span className={`text-[9px] font-black px-2 py-0.5 rounded-full inline-block ${isActive ? 'bg-white/20' : 'bg-slate-100 text-slate-500'}`}>
           DAYS {phase.days[0]}-{phase.days[1]}
         </span>
       </div>
