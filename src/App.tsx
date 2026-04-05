@@ -233,7 +233,7 @@ const App: React.FC = () => {
     }[type];
 
     return (
-      <div className={`p-8 rounded-[2.5rem] border ${styles.bg} ${styles.border} shadow-sm group hover:shadow-xl transition-all duration-500`}>
+      <div className={`p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] border ${styles.bg} ${styles.border} shadow-sm group hover:shadow-xl transition-all duration-500`}>
         <div className="flex items-center gap-4 mb-6">
           <div className={`w-8 h-8 rounded-xl flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform ${styles.iconContainer}`}>
             {styles.icon}
@@ -288,7 +288,7 @@ const App: React.FC = () => {
           </div>
           <h3 className={`text-3xl md:text-4xl font-extrabold tracking-tight text-slate-800`}>Mind & Body Guidance</h3>
         </div>
-        <div className={`p-12 rounded-[4rem] ${phase.lightColor} border-4 border-white shadow-inner`}>
+        <div className={`p-6 md:p-12 rounded-3xl md:rounded-[4rem] ${phase.lightColor} border-0 md:border-4 border-white shadow-inner`}>
           <h4 className="font-black text-2xl text-slate-900 mb-8">{phase.moodTitle}</h4>
           <ul className="space-y-8">
             {phase.moodTips.map((tip: string, i: number) => (
@@ -310,7 +310,7 @@ const App: React.FC = () => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {Object.entries(phase.meals).map(([type, desc]) => (
-            <div key={type} className="p-10 bg-slate-50/50 shadow-sm rounded-[3rem] border border-slate-100 hover:bg-white hover:shadow-xl transition-all duration-500 group">
+            <div key={type} className="p-6 md:p-10 bg-slate-50/50 shadow-sm rounded-3xl md:rounded-[3rem] border border-slate-100 hover:bg-white hover:shadow-xl transition-all duration-500 group">
               <span className="text-xs font-black tracking-[0.3em] text-slate-400 uppercase mb-4 block group-hover:text-slate-500 transition-colors">{type}</span>
               <p className="text-slate-800 font-extrabold leading-tight text-2xl">{desc as string}</p>
             </div>
@@ -367,7 +367,7 @@ const App: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           <div className="lg:col-span-5 flex flex-col gap-8">
-            <section className="bg-white p-12 rounded-[4rem] shadow-sm border border-slate-100 flex flex-col items-center relative overflow-hidden group">
+            <section className="bg-white p-6 md:p-12 rounded-3xl md:rounded-[4rem] shadow-sm border border-slate-100 flex flex-col items-center relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-64 h-64 bg-slate-50 rounded-full blur-3xl -mr-32 -mt-32 opacity-50 transition-colors duration-1000"></div>
               <div className="relative w-80 h-80 flex items-center justify-center select-none" ref={svgRef as any}>
                 <svg viewBox="0 0 200 200" className="w-full h-full transform -rotate-90">
@@ -410,7 +410,7 @@ const App: React.FC = () => {
           </div>
 
           <div className="lg:col-span-7 space-y-8">
-            <section className="bg-white p-12 rounded-[4rem] shadow-sm border border-slate-100 min-h-full flex flex-col relative overflow-hidden">
+            <section className="bg-white p-6 md:p-12 rounded-3xl md:rounded-[4rem] shadow-sm border border-slate-100 min-h-full flex flex-col relative overflow-hidden">
               <div className={`absolute top-0 right-0 w-96 h-96 ${currentPhase.lightColor} blur-[120px] -mr-48 -mt-48 transition-colors duration-1000`}></div>
               <div className="relative flex-grow">
                 <DetailView phase={currentPhase} phaseKey={currentPhaseKey} />
