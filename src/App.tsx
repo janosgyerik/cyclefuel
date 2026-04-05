@@ -501,9 +501,17 @@ const App: React.FC = () => {
                 <div className="mt-8 text-center"><p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em] flex items-center gap-2"><ChevronLeft className="w-3 h-3" /> Drag knob to adjust <ChevronRight className="w-3 h-3" /></p></div>
               )}
               <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
-                {Object.entries(cycleData).map(([key, p]) => (
-                  <PhaseCard key={key} phase={p} phaseKey={key} isActive={currentPhaseKey === key} />
-                ))}
+                {(() => {
+                  const keys = ['menstrual', 'follicular', 'ovulation', 'luteal'];
+                  const currentIndex = keys.indexOf(currentPhaseKey);
+                  const orderedKeys = [
+                    ...keys.slice(currentIndex),
+                    ...keys.slice(0, currentIndex)
+                  ];
+                  return orderedKeys.map((key) => (
+                    <PhaseCard key={key} phase={(cycleData as any)[key]} phaseKey={key} isActive={currentPhaseKey === key} />
+                  ));
+                })()}
               </div>
             </section>
           </div>
