@@ -16,9 +16,16 @@ import {
 } from 'lucide-react';
 
 const App: React.FC = () => {
+  const formatDate = (date: Date) => {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, '0');
+    const d = String(date.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  };
+
   const [startDate, setStartDate] = useState<string>(() => {
     const saved = localStorage.getItem('cycleStartDate');
-    return saved || new Date().toISOString().split('T')[0];
+    return saved || formatDate(new Date());
   });
   
   const [cycleDay, setCycleDay] = useState(1);
@@ -196,7 +203,8 @@ const App: React.FC = () => {
   useEffect(() => {
     if (isDragging) return;
     localStorage.setItem('cycleStartDate', startDate);
-    const start = new Date(startDate);
+    const [y, m, d] = startDate.split('-').map(Number);
+    const start = new Date(y, m - 1, d);
     const today = new Date();
     const normalizedStart = new Date(start.getFullYear(), start.getMonth(), start.getDate());
     const normalizedToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
@@ -220,7 +228,7 @@ const App: React.FC = () => {
       const today = new Date();
       const newStart = new Date(today);
       newStart.setDate(today.getDate() - (newDay - 1));
-      setStartDate(newStart.toISOString().split('T')[0]);
+      setStartDate(formatDate(newStart));
     }
   };
 
@@ -274,6 +282,16 @@ const App: React.FC = () => {
       return d.getDate() === day && d.getMonth() === month && d.getFullYear() === year;
     };
     
+    const todayLocal = new Date();
+    todayLocal.setHours(0, 0, 0, 0);
+    const minDateLocal = new Date(todayLocal);
+    minDateLocal.setMonth(todayLocal.getMonth() - 2);
+    
+    const isDateDisabled = (day: number) => {
+      const d = new Date(year, month, day);
+      return d > todayLocal || d < minDateLocal;
+    };
+    
     return (
       <div className="p-5 w-72">
         <div className="flex justify-between items-center mb-6">
@@ -291,11 +309,14 @@ const App: React.FC = () => {
             <div key={idx} className="h-9 flex items-center justify-center">
               {day && (
                 <button
-                  onClick={() => onSelect(new Date(year, month, day).toISOString().split('T')[0])}
+                  disabled={isDateDisabled(day)}
+                  onClick={() => onSelect(formatDate(new Date(year, month, day)))}
                   className={`w-8 h-8 text-xs font-bold rounded-full transition-all ${
                     isSelected(day) 
                       ? 'bg-slate-900 text-white shadow-md' 
-                      : 'text-slate-600 hover:bg-slate-100'
+                      : isDateDisabled(day)
+                        ? 'text-slate-200 cursor-not-allowed'
+                        : 'text-slate-600 hover:bg-slate-100'
                   }`}
                 >
                   {day}
