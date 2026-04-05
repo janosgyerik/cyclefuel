@@ -12,7 +12,6 @@ import {
   Target,
   ShieldAlert,
   Zap,
-  ChevronDown,
   Brain,
   X
 } from 'lucide-react';
@@ -302,30 +301,6 @@ const App: React.FC = () => {
     );
   };
 
-  const CollapsibleSection: React.FC<{ title: string; children: React.ReactNode; icon: React.ReactNode; defaultOpen?: boolean }> = ({ title, children, icon, defaultOpen = false }) => {
-    const [isOpen, setIsOpen] = useState(defaultOpen);
-    return (
-      <div className="bg-white rounded-[3rem] shadow-sm border border-slate-100 overflow-hidden mb-4 transition-all duration-300">
-        <button 
-          onClick={() => setIsOpen(!isOpen)}
-          className="w-full p-8 flex items-center justify-between hover:bg-slate-50/50 transition-colors"
-        >
-          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 rounded-2xl bg-slate-900 text-white flex items-center justify-center shadow-md">
-              {icon}
-            </div>
-            <h4 className="text-[15px] font-black tracking-tight text-slate-800">{title}</h4>
-          </div>
-          <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform duration-500 ${isOpen ? 'rotate-180' : ''}`} />
-        </button>
-        <div className={`transition-all duration-500 ease-in-out ${isOpen ? 'max-h-[2000px] opacity-100 pb-10' : 'max-h-0 opacity-0'}`}>
-          <div className="px-8 border-t border-slate-50 pt-8 mt-2">
-            {children}
-          </div>
-        </div>
-      </div>
-    );
-  };
 
   const InstructionCard: React.FC<{ title: string; items: string[]; type: 'focus' | 'avoid' | 'other' }> = ({ title, items, type }) => {
     if (items.length === 0) return null;
@@ -382,30 +357,42 @@ const App: React.FC = () => {
          <InstructionCard title="Daily Habits" items={phase.otherItems} type="other" />
       </div>
 
-      <CollapsibleSection title="Mind & Body Guidance" icon={<Brain className="w-5 h-5" />}>
-        <div className={`p-8 rounded-[3rem] ${phase.lightColor} border-4 border-white shadow-inner`}>
-          <h3 className="font-black text-xl text-slate-900 mb-6">{phase.moodTitle}</h3>
-          <ul className="space-y-6">
+      <div className="pt-20 border-t border-slate-100/60">
+        <div className="flex items-center gap-6 mb-12">
+          <div className={`w-14 h-14 rounded-[1.5rem] ${phase.lightColor} ${phase.textColor} flex items-center justify-center shadow-sm border border-white`}>
+            <Brain className="w-7 h-7" />
+          </div>
+          <h3 className={`text-3xl md:text-4xl font-extrabold tracking-tight text-slate-800`}>Mind & Body Guidance</h3>
+        </div>
+        <div className={`p-12 rounded-[4rem] ${phase.lightColor} border-4 border-white shadow-inner`}>
+          <h4 className="font-black text-2xl text-slate-900 mb-8">{phase.moodTitle}</h4>
+          <ul className="space-y-8">
             {phase.moodTips.map((tip: string, i: number) => (
-              <li key={i} className="flex items-start gap-5 text-slate-700 font-bold leading-relaxed text-lg">
-                <span className={`flex-shrink-0 w-8 h-8 rounded-2xl flex items-center justify-center text-[11px] font-black ${phase.bgClass} text-white mt-0.5 shadow-lg`}>{i + 1}</span>
+              <li key={i} className="flex items-start gap-6 text-slate-700 font-bold leading-relaxed text-xl">
+                <span className={`flex-shrink-0 w-10 h-10 rounded-2xl flex items-center justify-center text-xs font-black ${phase.bgClass} text-white mt-1 shadow-lg`}>{i + 1}</span>
                 {tip}
               </li>
             ))}
           </ul>
         </div>
-      </CollapsibleSection>
+      </div>
 
-      <CollapsibleSection title="Example Meal Plan" icon={<Utensils className="w-5 h-5" />}>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div className="pt-20 border-t border-slate-100/60">
+        <div className="flex items-center gap-6 mb-12">
+          <div className={`w-14 h-14 rounded-[1.5rem] ${phase.lightColor} ${phase.textColor} flex items-center justify-center shadow-sm border border-white`}>
+            <Utensils className="w-7 h-7" />
+          </div>
+          <h3 className={`text-3xl md:text-4xl font-extrabold tracking-tight text-slate-800`}>Example Meal Plan</h3>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {Object.entries(phase.meals).map(([type, desc]) => (
-            <div key={type} className="p-8 bg-slate-50/80 rounded-[2.5rem] border border-slate-100 hover:bg-white hover:shadow-xl transition-all duration-300">
-              <span className="text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase mb-2 block">{type}</span>
-              <p className="text-slate-800 font-bold leading-tight text-lg">{desc as string}</p>
+            <div key={type} className="p-10 bg-slate-50/50 shadow-sm rounded-[3rem] border border-slate-100 hover:bg-white hover:shadow-xl transition-all duration-500 group">
+              <span className="text-xs font-black tracking-[0.3em] text-slate-400 uppercase mb-4 block group-hover:text-slate-500 transition-colors">{type}</span>
+              <p className="text-slate-800 font-extrabold leading-tight text-2xl">{desc as string}</p>
             </div>
           ))}
         </div>
-      </CollapsibleSection>
+      </div>
     </div>
   );
 
