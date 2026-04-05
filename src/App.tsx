@@ -522,7 +522,11 @@ const App: React.FC = () => {
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8" onClick={() => setSelectedPhase(null)}>
             <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-xl animate-in fade-in duration-500"></div>
             <div className="bg-white w-full max-w-4xl rounded-[4rem] p-10 md:p-14 shadow-2xl relative z-10 overflow-y-auto max-h-[90vh] animate-in zoom-in slide-in-from-bottom-10 duration-500" onClick={e => e.stopPropagation()}>
-               <button onClick={() => setSelectedPhase(null)} className="absolute top-10 right-10 p-4 bg-slate-100 hover:bg-slate-200 rounded-full transition-colors group z-20"><X className="w-6 h-6 text-slate-500 group-hover:rotate-90 transition-transform" /></button>
+               <div className="sticky top-0 flex justify-end z-50 pointer-events-none -mb-12">
+                 <button onClick={() => setSelectedPhase(null)} className="pointer-events-auto p-4 bg-white/90 backdrop-blur-md hover:bg-slate-100 rounded-full shadow-xl border border-slate-100 transition-all group transform hover:scale-110 active:scale-95">
+                   <X className="w-6 h-6 text-slate-500 group-hover:rotate-90 transition-transform" />
+                 </button>
+               </div>
                <DetailView phase={selectedPhase.phase} phaseKey={selectedPhase.key} />
             </div>
           </div>
