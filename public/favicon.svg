@@ -1,5 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <circle cx="50" cy="50" r="45" fill="#B37455" />
-  <path d="M50 20 A30 30 0 0 1 80 50 L50 50 Z" fill="#7C9FC3" />
-  <circle cx="50" cy="50" r="10" fill="white" />
+  <circle cx="50" cy="50" r="40" fill="none" stroke="#B37455" stroke-width="20" stroke-dasharray="44.88 251.33" transform="rotate(-90 50 50)" />
+  <circle cx="50" cy="50" r="40" fill="none" stroke="#CEAF4E" stroke-width="20" stroke-dasharray="62.83 251.33" stroke-dashoffset="-44.88" transform="rotate(-90 50 50)" />
+  <circle cx="50" cy="50" r="40" fill="none" stroke="#8AA773" stroke-width="20" stroke-dasharray="26.93 251.33" stroke-dashoffset="-107.71" transform="rotate(-90 50 50)" />
+  <circle cx="50" cy="50" r="40" fill="none" stroke="#7C9FC3" stroke-width="20" stroke-dasharray="116.68 251.33" stroke-dashoffset="-134.64" transform="rotate(-90 50 50)" />
 </svg>
