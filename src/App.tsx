@@ -398,8 +398,8 @@ const App: React.FC = () => {
           <h4 className="font-black text-2xl text-slate-900 mb-8">{phase.moodTitle}</h4>
           <ul className="space-y-8">
             {phase.moodTips.map((tip: string, i: number) => (
-              <li key={i} className="flex items-start gap-6 text-slate-700 font-bold leading-relaxed text-xl">
-                <span className={`flex-shrink-0 w-10 h-10 rounded-2xl flex items-center justify-center text-xs font-black ${phase.bgClass} text-white mt-1 shadow-lg`}>{i + 1}</span>
+              <li key={i} className="text-slate-700 font-bold leading-relaxed text-xl mb-10 overflow-hidden">
+                <span className={`float-left w-10 h-10 rounded-2xl flex items-center justify-center text-xs font-black ${phase.bgClass} text-white mr-5 mb-2 shadow-lg`}>{i + 1}</span>
                 {tip}
               </li>
             ))}
@@ -500,7 +500,7 @@ const App: React.FC = () => {
               {isDevMode && (
                 <div className="mt-8 text-center"><p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em] flex items-center gap-2"><ChevronLeft className="w-3 h-3" /> Drag knob to adjust <ChevronRight className="w-3 h-3" /></p></div>
               )}
-              <div className="mt-12 grid grid-cols-2 gap-5 w-full">
+              <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
                 {Object.entries(cycleData).map(([key, p]) => (
                   <PhaseCard key={key} phase={p} phaseKey={key} isActive={currentPhaseKey === key} />
                 ))}
