@@ -196,7 +196,7 @@ const App: React.FC = () => {
         </div>
         <div className="grid grid-cols-7 gap-1 text-center mb-3">
           {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => (
-            <span key={i} className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{d}</span>
+            <span key={i} className="text-[11px] font-black text-slate-400 uppercase tracking-widest">{d}</span>
           ))}
         </div>
         <div className="grid grid-cols-7 gap-1">
@@ -206,7 +206,7 @@ const App: React.FC = () => {
                 <button
                   disabled={isDateDisabled(day)}
                   onClick={() => onSelect(formatDate(new Date(year, month, day)))}
-                  className={`w-8 h-8 text-xs font-bold rounded-full transition-all ${isSelected(day)
+                  className={`w-8 h-8 text-sm font-bold rounded-full transition-all ${isSelected(day)
                     ? 'bg-slate-900 text-white shadow-md'
                     : isDateDisabled(day)
                       ? 'text-slate-200 cursor-not-allowed'
@@ -238,11 +238,11 @@ const App: React.FC = () => {
           <div className={`w-8 h-8 rounded-xl flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform ${styles.iconContainer}`}>
             {styles.icon}
           </div>
-          <h4 className="text-[12px] font-black uppercase tracking-[0.2em] text-slate-700">{title}</h4>
+          <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-700">{title}</h4>
         </div>
         <ul className="space-y-3">
           {items.map((item, i) => (
-            <li key={i} className={`text-[14px] font-bold ${styles.text} flex items-start gap-3`}>
+            <li key={i} className={`text-base font-bold ${styles.text} flex items-start gap-3`}>
               <div className={`w-1.5 h-1.5 rounded-full mt-1.5 shrink-0 opacity-40 ${styles.iconContainer}`}></div>
               {item}
             </li>
@@ -256,14 +256,14 @@ const App: React.FC = () => {
     <div className="flex flex-col space-y-8">
       <div className="flex items-start justify-between mb-4 gap-6">
         <div className="flex-1">
-          <h2 className="text-5xl font-black text-slate-900 mb-2">{phase.name} Phase</h2>
+          <h2 className="text-4xl font-black text-slate-900 mb-2">{phase.name} Phase</h2>
           <p className={`font-bold text-xl ${phase.textColor} transition-colors duration-700 mb-4`}>{phase.subtitle}</p>
           {phase.summaryText && (
-            <p className="text-slate-600 font-bold leading-relaxed max-w-xl mb-6">{phase.summaryText}</p>
+            <p className="text-slate-600 font-bold leading-relaxed max-w-xl mb-6 text-base">{phase.summaryText}</p>
           )}
           <div className="flex flex-wrap gap-2">
             {phase.focusOn.map((item: string, i: number) => (
-              <span key={i} className={`text-[10px] font-black uppercase px-3 py-1.5 rounded-xl border ${phase.lightColor} ${phase.textColor} ${phase.accentColor}`}>+ {item}</span>
+              <span key={i} className={`text-[11px] font-black uppercase px-3 py-1.5 rounded-xl border ${phase.lightColor} ${phase.textColor} ${phase.accentColor}`}>+ {item}</span>
             ))}
           </div>
         </div>
@@ -286,14 +286,14 @@ const App: React.FC = () => {
           <div className={`w-14 h-14 rounded-[1.5rem] ${phase.lightColor} ${phase.textColor} flex items-center justify-center shadow-sm border border-white`}>
             <Brain className="w-7 h-7" />
           </div>
-          <h3 className={`text-3xl md:text-4xl font-extrabold tracking-tight text-slate-800`}>Mind & Body Guidance</h3>
+          <h3 className={`text-4xl font-extrabold tracking-tight text-slate-800`}>Mind & Body Guidance</h3>
         </div>
         <div className={`p-6 md:p-12 rounded-3xl md:rounded-[4rem] ${phase.lightColor} border-0 md:border-4 border-white shadow-inner`}>
           <h4 className="font-black text-2xl text-slate-900 mb-8">{phase.moodTitle}</h4>
           <ul className="space-y-8">
             {phase.moodTips.map((tip: string, i: number) => (
               <li key={i} className="text-slate-700 font-bold leading-relaxed text-xl mb-10 overflow-hidden">
-                <span className={`float-left w-10 h-10 rounded-2xl flex items-center justify-center text-xs font-black ${phase.bgClass} text-white mr-5 mb-2 shadow-lg`}>{i + 1}</span>
+                <span className={`float-left w-10 h-10 rounded-2xl flex items-center justify-center text-[11px] font-black ${phase.bgClass} text-white mr-5 mb-2 shadow-lg`}>{i + 1}</span>
                 {tip}
               </li>
             ))}
@@ -306,12 +306,12 @@ const App: React.FC = () => {
           <div className={`w-14 h-14 rounded-[1.5rem] ${phase.lightColor} ${phase.textColor} flex items-center justify-center shadow-sm border border-white`}>
             <Utensils className="w-7 h-7" />
           </div>
-          <h3 className={`text-3xl md:text-4xl font-extrabold tracking-tight text-slate-800`}>Example Meal Plan</h3>
+          <h3 className={`text-4xl font-extrabold tracking-tight text-slate-800`}>Example Meal Plan</h3>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {Object.entries(phase.meals).map(([type, desc]) => (
             <div key={type} className="p-6 md:p-10 bg-slate-50/50 shadow-sm rounded-3xl md:rounded-[3rem] border border-slate-100 hover:bg-white hover:shadow-xl transition-all duration-500 group">
-              <span className="text-xs font-black tracking-[0.3em] text-slate-400 uppercase mb-4 block group-hover:text-slate-500 transition-colors">{type}</span>
+              <span className="text-[11px] font-black tracking-[0.3em] text-slate-400 uppercase mb-4 block group-hover:text-slate-500 transition-colors">{type}</span>
               <p className="text-slate-800 font-extrabold leading-tight text-2xl">{desc as string}</p>
             </div>
           ))}
@@ -331,13 +331,13 @@ const App: React.FC = () => {
         }`}
     >
       <div className="mb-3">
-        <h3 className="font-black text-base md:text-sm uppercase tracking-wider mb-1">{phase.name}</h3>
-        <span className={`text-xs md:text-[9px] font-black px-2 py-0.5 rounded-full inline-block ${isActive ? 'bg-white/20' : 'bg-slate-100 text-slate-500'}`}>DAYS {phase.days[0]}-{phase.days[1]}</span>
+        <h3 className="font-black text-sm uppercase tracking-wider mb-1">{phase.name}</h3>
+        <span className={`text-[11px] font-black px-2 py-0.5 rounded-full inline-block ${isActive ? 'bg-white/20' : 'bg-slate-100 text-slate-500'}`}>DAYS {phase.days[0]}-{phase.days[1]}</span>
       </div>
-      <p className={`text-sm md:text-[11px] font-medium leading-relaxed mb-4 whitespace-pre-line ${isActive ? 'text-white/90' : 'text-slate-500'}`}>{phase.cardSummary}</p>
+      <p className={`text-sm font-medium leading-relaxed mb-4 whitespace-pre-line ${isActive ? 'text-white/90' : 'text-slate-500'}`}>{phase.cardSummary}</p>
       <div className="flex flex-wrap gap-1.5">
         {phase.focusOn.map((item: string, i: number) => (
-          <span key={i} className={`text-[10px] md:text-[9px] font-black uppercase px-2 py-1 rounded-lg ${isActive ? 'bg-white/10' : 'bg-slate-50 text-slate-400'}`}>+ {item}</span>
+          <span key={i} className={`text-[11px] font-black uppercase px-2 py-1 rounded-lg ${isActive ? 'bg-white/10' : 'bg-slate-50 text-slate-400'}`}>+ {item}</span>
         ))}
       </div>
     </div>
@@ -359,7 +359,7 @@ const App: React.FC = () => {
           <div className="relative" ref={calendarRef}>
             <button onClick={() => setIsCalendarOpen(!isCalendarOpen)} className={`bg-white p-5 px-7 rounded-[2.5rem] shadow-sm border transition-all flex items-center gap-5 group ${isCalendarOpen ? 'border-slate-900 ring-8 ring-slate-900/5' : 'border-slate-200 hover:border-slate-300 hover:shadow-md'}`}>
               <div className={`p-2 rounded-xl transition-colors ${isCalendarOpen ? 'bg-slate-900 text-white' : 'bg-slate-50 text-slate-400 group-hover:text-slate-600'}`}><CalendarIcon className="w-5 h-5" /></div>
-              <div className="flex flex-col items-start"><span className="text-[10px] uppercase font-black text-slate-400 tracking-[0.2em] mb-0.5">Start Date</span><span className="text-sm font-bold text-slate-700">{new Date(startDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</span></div>
+              <div className="flex flex-col items-start"><span className="text-[11px] uppercase font-black text-slate-400 tracking-[0.2em] mb-0.5">Start Date</span><span className="text-sm font-bold text-slate-700">{new Date(startDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</span></div>
             </button>
             {isCalendarOpen && <div className="absolute right-0 mt-3 z-50 bg-white shadow-[0_30px_100px_rgba(0,0,0,0.15)] rounded-[3rem] border border-slate-100 overflow-hidden animate-in fade-in zoom-in slide-in-from-top-4 duration-300 origin-top-right"><CustomCalendar selectedDate={startDate} onSelect={(date) => { setStartDate(date); setIsCalendarOpen(false); }} /></div>}
           </div>
