@@ -210,7 +210,7 @@ const App: React.FC = () => {
     const normalizedToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     const diffTime = Math.max(0, normalizedToday.getTime() - normalizedStart.getTime());
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    const day = ((diffDays % 28) + 1);
+    const day = diffDays + 1;
     setCycleDay(day);
   }, [startDate, isDragging]);
 
@@ -484,7 +484,7 @@ const App: React.FC = () => {
                   <circle cx="100" cy="100" r={radius} fill="none" stroke={cycleData.ovulation.color} strokeWidth="20" strokeDasharray={`${getStrokeDash(3)} ${circumference}`} strokeDashoffset={`-${getStrokeDash(12)}`} strokeLinecap="round" />
                   <circle cx="100" cy="100" r={radius} fill="none" stroke={cycleData.luteal.color} strokeWidth="20" strokeDasharray={`${getStrokeDash(13)} ${circumference}`} strokeDashoffset={`-${getStrokeDash(15)}`} strokeLinecap="round" />
                 </svg>
-                <div className="absolute w-full h-full transform transition-transform duration-150 preserve-3d" style={{ transform: `rotate(${((cycleDay - 1) / 28) * 360}deg)`, cursor: isDevMode ? (isDragging ? 'grabbing' : 'grab') : 'default' }} onMouseDown={(e) => { 
+                <div className="absolute w-full h-full transform transition-transform duration-150 preserve-3d" style={{ transform: `rotate(${((Math.min(cycleDay, 28) - 1) / 28) * 360}deg)`, cursor: isDevMode ? (isDragging ? 'grabbing' : 'grab') : 'default' }} onMouseDown={(e) => { 
                   if (!isDevMode) return;
                   e.preventDefault(); 
                   setIsDragging(true); 
