@@ -433,18 +433,18 @@ const App: React.FC = () => {
   const PhaseCard: React.FC<{ phase: any; phaseKey: string; isActive: boolean }> = ({ phase, phaseKey, isActive }) => (
     <div 
       onClick={() => setSelectedPhase({ phase, key: phaseKey })}
-      className={`p-5 rounded-[2rem] cursor-pointer transition-all duration-500 border-2 ${
+      className={`p-6 rounded-[2rem] cursor-pointer transition-all duration-500 border-2 ${
         isActive ? `${phase.bgClass} text-white shadow-2xl scale-[1.02] border-white/20` : 'bg-white border-slate-100 hover:border-slate-200 hover:shadow-lg'
       }`}
     >
       <div className="mb-3">
-        <h3 className="font-black text-sm uppercase tracking-wider mb-1">{phase.name}</h3>
-        <span className={`text-[9px] font-black px-2 py-0.5 rounded-full inline-block ${isActive ? 'bg-white/20' : 'bg-slate-100 text-slate-500'}`}>DAYS {phase.days[0]}-{phase.days[1]}</span>
+        <h3 className="font-black text-base md:text-sm uppercase tracking-wider mb-1">{phase.name}</h3>
+        <span className={`text-xs md:text-[9px] font-black px-2 py-0.5 rounded-full inline-block ${isActive ? 'bg-white/20' : 'bg-slate-100 text-slate-500'}`}>DAYS {phase.days[0]}-{phase.days[1]}</span>
       </div>
-      <p className={`text-[11px] font-medium leading-relaxed mb-4 whitespace-pre-line ${isActive ? 'text-white/90' : 'text-slate-500'}`}>{phase.cardSummary}</p>
+      <p className={`text-sm md:text-[11px] font-medium leading-relaxed mb-4 whitespace-pre-line ${isActive ? 'text-white/90' : 'text-slate-500'}`}>{phase.cardSummary}</p>
       <div className="flex flex-wrap gap-1.5">
         {phase.focusOn.map((item: string, i: number) => (
-          <span key={i} className={`text-[9px] font-black uppercase px-2 py-1 rounded-lg ${isActive ? 'bg-white/10' : 'bg-slate-50 text-slate-400'}`}>+ {item}</span>
+          <span key={i} className={`text-[10px] md:text-[9px] font-black uppercase px-2 py-1 rounded-lg ${isActive ? 'bg-white/10' : 'bg-slate-50 text-slate-400'}`}>+ {item}</span>
         ))}
       </div>
     </div>
