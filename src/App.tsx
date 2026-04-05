@@ -70,13 +70,14 @@ const App: React.FC = () => {
       avoid: ["Processed food", "Alcohol", "Fizzy drinks", "Spicy food", "Sugar"],
       moodTitle: "Nourish your body with iron & comfort",
       moodTips: [
-        "Focus on iron-rich foods such as red meat, poultry, fish, legumes, and leafy greens to replenish minerals.",
-        "Pair iron-rich foods with Vitamin C (citrus, peppers) to significantly increase absorption.",
-        "Incorporate Vitamin K-rich foods like leafy greens to support healthy blood clotting.",
-        "Magnesium-rich foods (dark chocolate, pumpkin seeds) can help alleviate menstrual cramps.",
-        "Sip on warm herbal teas (ginger, raspberry leaf) to soothe the uterus and reduce bloating.",
-        "Stay hydrated with room-temperature water and avoid excessive salt to prevent water retention.",
-        "Consume healthy fats like omega-3s found in fatty fish or flaxseeds to manage inflammation."
+        "Red meat: Beef, lamb (high in heme iron, which is more easily absorbed by the body)",
+        "Poultry: Chicken and turkey (good source of iron)",
+        "Fish: Fatty fish like salmon and tuna, shellfish (iron + omega-3 fatty acids).",
+        "Legumes: Lentils, chickpeas, and beans (excellent plant-based sources of iron).",
+        "Leafy greens: Spinach, kale, and Swiss chard (rich in non-heme iron).",
+        "Tofu: A versatile source of iron (for a plant-based diet).",
+        "Nuts and seeds: Pumpkin seeds, almonds, and cashews are (great snacks that also provide iron).",
+        "Whole grains: Quinoa, brown rice, and oats (good sources of iron and fiber)."
       ],
       meals: {
         breakfast: "Iron-fortified breakfast cereal with berries",
@@ -103,13 +104,13 @@ const App: React.FC = () => {
       avoid: ["Stress", "Xenoestrogens (BPA)", "Excessive body fat", "Alcohol", "Lack of sleep"],
       moodTitle: "Build energy & support estrogen metabolism",
       moodTips: [
-        "Eat plenty of fiber-rich foods (berries, citrus, greens) to process and eliminate used hormones.",
-        "Incorporate cruciferous vegetables like broccoli and cauliflower to support estrogen balance.",
-        "Focus on healthy fats (avocado, nuts) to support hormone production as levels rise.",
-        "Include fermented foods (yogurt, sauerkraut) to support the gut microbiome.",
-        "Choose complex carbohydrates (quinoa, oats) for sustained energy as activity levels increase.",
-        "Zinc-rich foods support healthy egg development and follicle growth.",
-        "Vitamin E protects developing follicles from oxidative stress."
+        "Fresh fruits: Berries (strawberries, blueberries, raspberries): High in antioxidants and vitamin C, which support immune function and collagen production. Citrus fruits (oranges, grapefruits, lemons): Packed with vitamin C to enhance iron absorption and boost energy.",
+        "Vegetables: Leafy greens (spinach, kale, arugula): Rich in iron, calcium, and vitamins A and K, supporting overall health. Cruciferous vegetables (broccoli, cauliflower, Brussels sprouts): Provide fiber, vitamins C and K, and support estrogen metabolism.",
+        "Nuts and seeds: Almonds and walnuts: High in healthy fats, protein, and vitamin E, which is important for hormone regulation. Chia seeds and flaxseeds: Excellent sources of omega-3 fatty acids and fiber, promoting heart health and digestion.",
+        "Whole grains: Quinoa and brown rice: Provide complex carbohydrates for sustained energy, along with B vitamins that support metabolic processes. Oats: A great source of fiber, vitamins, and minerals that can help regulate energy levels.",
+        "Lean proteins: Chicken and turkey: Good sources of protein and iron to support muscle health and energy levels. Fish (especially fatty fish like salmon): Rich in omega-3 fatty acids, which can help reduce inflammation and support hormone production.",
+        "Healthy fats: Avocado: Contains healthy monounsaturated fats, potassium, and fiber, which can help with satiety and hormone balance. Olive oil: A great source of healthy fats that supports heart health and can help balance hormones.",
+        "Herbs and spices: Ginger and turmeric: Known for their anti-inflammatory properties and can support digestion and overall health."
       ],
       meals: {
         breakfast: "Overnight oats topped with fresh berries and seeds",
@@ -136,13 +137,13 @@ const App: React.FC = () => {
       avoid: ["Heavy grains", "Processed sugar", "Excessive caffeine"],
       moodTitle: "Maximize vitality & support peak energy",
       moodTips: [
-        "Fuel your high energy with high-quality, easily digestible proteins (eggs, lean meats, tofu).",
-        "Eat antioxidant-rich fruits like berries and pomegranate to protect the egg during release.",
-        "Incorporate zinc-rich foods (shellfish, seeds) to support the surge in surge surge hormones.",
-        "Focus on hydrating foods (cucumber, watermelon) to support cervical fluid quality.",
-        "Vitamin C-rich foods support the health of the follicle post-release.",
-        "Magnesium supports the nervous system during this high-intensity phase.",
-        "Limit inflammatory foods to keep skin clear during hormonal peaks."
+        "High-protein foods: Lean meats (chicken, turkey), Fish (salmon, tuna), Tofu and tempeh",
+        "Eggs: Packed with protein and essential vitamins.",
+        "Avocados: High in healthy fats and fiber.",
+        "Nuts and seeds: Pumpkin seeds, almonds, and walnuts for protein and zinc.",
+        "Fruits and vegetables: Leafy greens (spinach, kale) and berries (strawberries, blueberries) for vitamins and antioxidants.",
+        "Whole grains: Quinoa and brown rice for complex carbohydrates.",
+        "Zinc-rich foods: Shellfish (oysters, shrimp) and legumes (chickpeas, lentils)."
       ],
       meals: {
         breakfast: "Soft-scrambled eggs with chives on sourdough",
@@ -169,13 +170,13 @@ const App: React.FC = () => {
       avoid: ["Processed junk food", "High salt", "Refined sugar"],
       moodTitle: "Manage appetite & mood naturally",
       moodTips: [
-        "Include complex carbohydrates (sweet potato, brown rice) to stabilize blood sugar and serotonin.",
-        "Magnesium-rich foods (dark chocolate, spinach) are critical for reducing anxiety and cramps.",
-        "Vitamin B6-rich foods (bananas, poultry, chickpeas) support progesterone production.",
-        "Consume high-fiber foods to prevent the sluggish digestion often associated with this phase.",
-        "Limit salt intake to help reduce water retention and breast tenderness.",
-        "Healthy fats (nuts, seeds, avocado) support hormone production and satiety.",
-        "Calcium-rich foods (tahini, leafy greens) can help minimize mood swings."
+        "Healthy proteins: Lean meats (chicken, turkey), Fish (salmon, sardines), Tofu and legumes (chickpeas, lentils)",
+        "Magnesium-rich foods: Dark chocolate, Nuts and seeds (almonds, pumpkin seeds)",
+        "Whole grains: Oats, quinoa, and brown rice",
+        "Fresh fruits: Bananas, apples, and berries",
+        "Vegetables: Leafy greens (spinach, kale) and cruciferous veggies (broccoli, cauliflower)",
+        "Vitamin D and calcium sources: Fortified dairy alternatives and leafy greens",
+        "Zinc-rich foods: Shellfish, legumes, and whole grains"
       ],
       meals: {
         breakfast: "Peanut butter oatmeal topped with toasted seeds",
