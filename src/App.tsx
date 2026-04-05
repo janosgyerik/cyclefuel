@@ -61,7 +61,7 @@ const App: React.FC = () => {
       lightColor: "bg-[#B37455]/10",
       accentColor: "border-[#B37455]/20",
       subtitle: "Iron-rich foods",
-      summaryText: "Focus on: Iron-rich foods + vitamin C. Nutrient-dense foods (lean proteins, and whole grains) + leafy greens. Warming food.",
+      summaryText: "",
       focusItems: ["Iron-rich foods + Vitamin C", "Nutrient-dense lean proteins and whole grains", "Leafy greens", "Warming food"],
       avoidItems: ["Processed food", "Alcohol", "Fizzy drinks", "Spicy food", "Sugar"],
       otherItems: [],
@@ -95,7 +95,7 @@ const App: React.FC = () => {
       lightColor: "bg-[#CEAF4E]/10",
       accentColor: "border-[#CEAF4E]/20",
       subtitle: "Estrogen-progesterone balance",
-      summaryText: "Foods to focus on: Fiber-reach foods, Nutrient-dense foods, Energy-boosting foods.",
+      summaryText: "",
       focusItems: ["Fiber-reach foods", "Nutrient-dense foods", "Energy-boosting foods"],
       avoidItems: [],
       otherItems: ["Manage stress", "Reduces xenoestrogens (BPA)", "Reduce body fat", "Limit alcohol", "Sleep"],
@@ -128,7 +128,7 @@ const App: React.FC = () => {
       lightColor: "bg-[#8AA773]/10",
       accentColor: "border-[#8AA773]/20",
       subtitle: "Boost protein for vitality",
-      summaryText: "Foods to focus on: High-protein foods (lean meat and tofu), fresh vegetables and greens, zinc-reach foods.",
+      summaryText: "",
       focusItems: ["High-protein foods (lean meat and tofu)", "Fresh vegetables and greens to boost fiber intake", "Zinc-reach foods"],
       avoidItems: [],
       otherItems: ["Ideal for high-intensity workouts"],
@@ -337,7 +337,9 @@ const App: React.FC = () => {
         <div className="flex-1">
           <h2 className="text-5xl font-black text-slate-900 mb-2">{phase.name} Phase</h2>
           <p className={`font-bold text-xl ${phase.textColor} transition-colors duration-700 mb-4`}>{phase.subtitle}</p>
-          <p className="text-slate-600 font-bold leading-relaxed max-w-xl mb-6">{phase.summaryText}</p>
+          {phase.summaryText && (
+            <p className="text-slate-600 font-bold leading-relaxed max-w-xl mb-6">{phase.summaryText}</p>
+          )}
           <div className="flex flex-wrap gap-2">
              {phase.focusOn.map((item: string, i: number) => (
                <span key={i} className={`text-[10px] font-black uppercase px-3 py-1.5 rounded-xl border ${phase.lightColor} ${phase.textColor} ${phase.accentColor}`}>+ {item}</span>
