@@ -1,20 +1,13 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import {
   Calendar as CalendarIcon,
-  Utensils,
-  ChevronRight,
-  Droplet,
-  Sun,
-  Sparkles,
-  Moon,
-  ChevronLeft,
-  Target,
-  ShieldAlert,
-  Zap,
-  Brain,
   X
 } from 'lucide-react';
 import { phaseTexts, PhaseContent } from './texts';
+import CustomCalendar from './components/CustomCalendar';
+import DetailView from './components/DetailView';
+import PhaseCard from './components/PhaseCard';
+import CycleWheel from './components/CycleWheel';
 
 const App: React.FC = () => {
   const formatDate = (date: Date) => {
@@ -42,7 +35,6 @@ const App: React.FC = () => {
   }, []);
 
   const calendarRef = useRef<HTMLDivElement>(null);
-  const svgRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -109,46 +101,7 @@ const App: React.FC = () => {
     setCycleDay(day);
   }, [startDate, isDragging]);
 
-  const handleMove = (clientX: number, clientY: number) => {
-    if (!isDragging || !svgRef.current) return;
-    const rect = svgRef.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    let angle = Math.atan2(clientY - centerY, clientX - centerX) + Math.PI / 2;
-    if (angle < 0) angle += 2 * Math.PI;
-    const rawDay = (angle / (2 * Math.PI)) * 28 + 1;
-    const newDay = Math.min(28, Math.max(1, Math.round(rawDay)));
-    if (newDay !== cycleDay) {
-      setCycleDay(newDay);
-      const today = new Date();
-      const newStart = new Date(today);
-      newStart.setDate(today.getDate() - (newDay - 1));
-      setStartDate(formatDate(newStart));
-    }
-  };
 
-  useEffect(() => {
-    const onMouseMove = (e: MouseEvent) => handleMove(e.clientX, e.clientY);
-    const onMouseUp = () => setIsDragging(false);
-    const onTouchMove = (e: TouchEvent) => {
-      if (e.touches[0]) {
-        e.preventDefault();
-        handleMove(e.touches[0].clientX, e.touches[0].clientY);
-      }
-    };
-    if (isDragging) {
-      window.addEventListener('mousemove', onMouseMove);
-      window.addEventListener('mouseup', onMouseUp);
-      window.addEventListener('touchmove', onTouchMove, { passive: false });
-      window.addEventListener('touchend', onMouseUp);
-    }
-    return () => {
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('mouseup', onMouseUp);
-      window.removeEventListener('touchmove', onTouchMove);
-      window.removeEventListener('touchend', onMouseUp);
-    };
-  }, [isDragging, cycleDay]);
 
   const currentPhaseKey = useMemo(() => {
     if (cycleDay >= 1 && cycleDay <= 5) return 'menstrual';
@@ -158,190 +111,6 @@ const App: React.FC = () => {
   }, [cycleDay]);
 
   const currentPhase = cycleData[currentPhaseKey as keyof typeof cycleData];
-
-  const CustomCalendar: React.FC<{ selectedDate: string; onSelect: (d: string) => void }> = ({ selectedDate, onSelect }) => {
-    const [viewDate, setViewDate] = useState(new Date(selectedDate));
-    const month = viewDate.getMonth();
-    const year = viewDate.getFullYear();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const firstDayOfMonth = new Date(year, month, 1).getDay();
-    const monthName = viewDate.toLocaleString('default', { month: 'long' });
-
-    const days = [];
-    for (let i = 0; i < firstDayOfMonth; i++) days.push(null);
-    for (let i = 1; i <= daysInMonth; i++) days.push(i);
-
-    const changeMonth = (offset: number) => setViewDate(new Date(year, month + offset, 1));
-    const isSelected = (day: number) => {
-      const d = new Date(selectedDate);
-      return d.getDate() === day && d.getMonth() === month && d.getFullYear() === year;
-    };
-
-    const todayLocal = new Date();
-    todayLocal.setHours(0, 0, 0, 0);
-    const minDateLocal = new Date(todayLocal);
-    minDateLocal.setMonth(todayLocal.getMonth() - 2);
-
-    const isDateDisabled = (day: number) => {
-      const d = new Date(year, month, day);
-      return d > todayLocal || d < minDateLocal;
-    };
-
-    return (
-      <div className="p-5 w-72">
-        <div className="flex justify-between items-center mb-6">
-          <button onClick={() => changeMonth(-1)} className="p-2 hover:bg-slate-100 rounded-xl transition-colors"><ChevronLeft className="w-5 h-5 text-slate-500" /></button>
-          <span className="font-bold text-slate-800">{monthName} {year}</span>
-          <button onClick={() => changeMonth(1)} className="p-2 hover:bg-slate-100 rounded-xl transition-colors"><ChevronRight className="w-5 h-5 text-slate-500" /></button>
-        </div>
-        <div className="grid grid-cols-7 gap-1 text-center mb-3">
-          {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => (
-            <span key={i} className="text-[11px] font-black text-slate-400 uppercase tracking-widest">{d}</span>
-          ))}
-        </div>
-        <div className="grid grid-cols-7 gap-1">
-          {days.map((day, idx) => (
-            <div key={idx} className="h-9 flex items-center justify-center">
-              {day && (
-                <button
-                  disabled={isDateDisabled(day)}
-                  onClick={() => onSelect(formatDate(new Date(year, month, day)))}
-                  className={`w-8 h-8 text-sm font-bold rounded-full transition-all ${isSelected(day)
-                    ? 'bg-slate-900 text-white shadow-md'
-                    : isDateDisabled(day)
-                      ? 'text-slate-200 cursor-not-allowed'
-                      : 'text-slate-600 hover:bg-slate-100'
-                    }`}
-                >
-                  {day}
-                </button>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  };
-
-
-  const InstructionCard: React.FC<{ title: string; items: string[]; type: 'focus' | 'avoid' | 'other' }> = ({ title, items, type }) => {
-    if (items.length === 0) return null;
-    const styles = {
-      focus: { bg: "bg-emerald-50/50", border: "border-emerald-100", text: "text-emerald-900", iconContainer: "bg-emerald-500", icon: <Target className="w-4 h-4 text-white" /> },
-      avoid: { bg: "bg-rose-50/50", border: "border-rose-100", text: "text-rose-900", iconContainer: "bg-rose-500", icon: <ShieldAlert className="w-4 h-4 text-white" /> },
-      other: { bg: "bg-amber-50/50", border: "border-amber-100", text: "text-amber-900", iconContainer: "bg-amber-500", icon: <Zap className="w-4 h-4 text-white" /> }
-    }[type];
-
-    return (
-      <div className={`p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] border ${styles.bg} ${styles.border} shadow-sm group hover:shadow-xl transition-all duration-500`}>
-        <div className="flex items-center gap-4 mb-6">
-          <div className={`w-8 h-8 rounded-xl flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform ${styles.iconContainer}`}>
-            {styles.icon}
-          </div>
-          <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-700">{title}</h4>
-        </div>
-        <ul className="space-y-3">
-          {items.map((item, i) => (
-            <li key={i} className={`text-base font-bold ${styles.text} flex items-start gap-3`}>
-              <div className={`w-1.5 h-1.5 rounded-full mt-1.5 shrink-0 opacity-40 ${styles.iconContainer}`}></div>
-              {item}
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  };
-
-  const DetailView: React.FC<{ phase: any; phaseKey: string }> = ({ phase, phaseKey }) => (
-    <div className="flex flex-col space-y-8">
-      <div className="flex items-start justify-between mb-4 gap-6">
-        <div className="flex-1">
-          <h2 className="text-4xl font-black text-slate-900 mb-2">{phase.name} Phase</h2>
-          <p className={`font-bold text-xl ${phase.textColor} transition-colors duration-700 mb-4`}>{phase.subtitle}</p>
-          {phase.summaryText && (
-            <p className="text-slate-600 font-bold leading-relaxed max-w-xl mb-6 text-base">{phase.summaryText}</p>
-          )}
-          <div className="flex flex-wrap gap-2">
-            {phase.focusOn.map((item: string, i: number) => (
-              <span key={i} className={`text-[11px] font-black uppercase px-3 py-1.5 rounded-xl border ${phase.lightColor} ${phase.textColor} ${phase.accentColor}`}>+ {item}</span>
-            ))}
-          </div>
-        </div>
-        <div className={`${phase.lightColor} w-24 h-24 rounded-[3rem] flex items-center justify-center border-4 border-white shadow-sm transition-colors duration-700 shrink-0`}>
-          {phaseKey === 'menstrual' && <Droplet className="w-12 h-12 text-[#B37455]" />}
-          {phaseKey === 'follicular' && <Sparkles className="w-12 h-12 text-[#CEAF4E]" />}
-          {phaseKey === 'ovulation' && <Sun className="w-12 h-12 text-[#8AA773]" />}
-          {phaseKey === 'luteal' && <Moon className="w-12 h-12 text-[#7C9FC3]" />}
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <InstructionCard title="Focus On" items={phase.focusItems} type="focus" />
-        <InstructionCard title="Limit / Avoid" items={phase.avoidItems} type="avoid" />
-        <InstructionCard title="Daily Habits" items={phase.otherItems} type="other" />
-      </div>
-
-      <div className="pt-20 border-t border-slate-100/60">
-        <div className="flex items-center gap-6 mb-12">
-          <div className={`w-14 h-14 rounded-[1.5rem] ${phase.lightColor} ${phase.textColor} flex items-center justify-center shadow-sm border border-white`}>
-            <Brain className="w-7 h-7" />
-          </div>
-          <h3 className={`text-4xl font-extrabold tracking-tight text-slate-800`}>Mind & Body Guidance</h3>
-        </div>
-        <div className={`p-6 md:p-12 rounded-3xl md:rounded-[4rem] ${phase.lightColor} border-0 md:border-4 border-white shadow-inner`}>
-          <h4 className="font-black text-2xl text-slate-900 mb-8">{phase.moodTitle}</h4>
-          <ul className="space-y-8">
-            {phase.moodTips.map((tip: string, i: number) => (
-              <li key={i} className="text-slate-700 font-bold leading-relaxed text-xl mb-10 overflow-hidden">
-                <span className={`float-left w-10 h-10 rounded-2xl flex items-center justify-center text-[11px] font-black ${phase.bgClass} text-white mr-5 mb-2 shadow-lg`}>{i + 1}</span>
-                {tip}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
-      <div className="pt-20 border-t border-slate-100/60">
-        <div className="flex items-center gap-6 mb-12">
-          <div className={`w-14 h-14 rounded-[1.5rem] ${phase.lightColor} ${phase.textColor} flex items-center justify-center shadow-sm border border-white`}>
-            <Utensils className="w-7 h-7" />
-          </div>
-          <h3 className={`text-4xl font-extrabold tracking-tight text-slate-800`}>Example Meal Plan</h3>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {Object.entries(phase.meals).map(([type, desc]) => (
-            <div key={type} className="p-6 md:p-10 bg-slate-50/50 shadow-sm rounded-3xl md:rounded-[3rem] border border-slate-100 hover:bg-white hover:shadow-xl transition-all duration-500 group">
-              <span className="text-[11px] font-black tracking-[0.3em] text-slate-400 uppercase mb-4 block group-hover:text-slate-500 transition-colors">{type}</span>
-              <p className="text-slate-800 font-extrabold leading-tight text-2xl">{desc as string}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-
-  const radius = 90;
-  const circumference = 2 * Math.PI * radius;
-  const getStrokeDash = (days: number) => (days / 28) * circumference;
-
-  const PhaseCard: React.FC<{ phase: any; phaseKey: string; isActive: boolean }> = ({ phase, phaseKey, isActive }) => (
-    <div
-      onClick={() => setSelectedPhase({ phase, key: phaseKey })}
-      className={`p-6 rounded-[2rem] cursor-pointer transition-all duration-500 border-2 ${isActive ? `${phase.bgClass} text-white shadow-2xl scale-[1.02] border-white/20` : 'bg-white border-slate-100 hover:border-slate-200 hover:shadow-lg'
-        }`}
-    >
-      <div className="mb-3">
-        <h3 className="font-black text-sm uppercase tracking-wider mb-1">{phase.name}</h3>
-        <span className={`text-[11px] font-black px-2 py-0.5 rounded-full inline-block ${isActive ? 'bg-white/20' : 'bg-slate-100 text-slate-500'}`}>DAYS {phase.days[0]}-{phase.days[1]}</span>
-      </div>
-      <p className={`text-sm font-medium leading-relaxed mb-4 whitespace-pre-line ${isActive ? 'text-white/90' : 'text-slate-500'}`}>{phase.cardSummary}</p>
-      <div className="flex flex-wrap gap-1.5">
-        {phase.focusOn.map((item: string, i: number) => (
-          <span key={i} className={`text-[11px] font-black uppercase px-2 py-1 rounded-lg ${isActive ? 'bg-white/10' : 'bg-slate-50 text-slate-400'}`}>+ {item}</span>
-        ))}
-      </div>
-    </div>
-  );
 
   return (
     <div className="min-h-screen p-4 md:p-8 lg:p-12 animate-in fade-in duration-700">
@@ -368,31 +137,16 @@ const App: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           <div className="lg:col-span-5 flex flex-col gap-8">
             <section className="bg-white p-6 md:p-12 rounded-3xl md:rounded-[4rem] shadow-sm border border-slate-100 flex flex-col items-center relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-slate-50 rounded-full blur-3xl -mr-32 -mt-32 opacity-50 transition-colors duration-1000"></div>
-              <div className="relative w-80 h-80 flex items-center justify-center select-none" ref={svgRef as any}>
-                <svg viewBox="0 0 200 200" className="w-full h-full transform -rotate-90">
-                  <circle cx="100" cy="100" r={radius} fill="none" stroke="#F1F5F9" strokeWidth="20" />
-                  <circle cx="100" cy="100" r={radius} fill="none" stroke={cycleData.menstrual.color} strokeWidth="20" strokeDasharray={`${getStrokeDash(5)} ${circumference}`} strokeLinecap="round" />
-                  <circle cx="100" cy="100" r={radius} fill="none" stroke={cycleData.follicular.color} strokeWidth="20" strokeDasharray={`${getStrokeDash(7)} ${circumference}`} strokeDashoffset={`-${getStrokeDash(5)}`} strokeLinecap="round" />
-                  <circle cx="100" cy="100" r={radius} fill="none" stroke={cycleData.ovulation.color} strokeWidth="20" strokeDasharray={`${getStrokeDash(3)} ${circumference}`} strokeDashoffset={`-${getStrokeDash(12)}`} strokeLinecap="round" />
-                  <circle cx="100" cy="100" r={radius} fill="none" stroke={cycleData.luteal.color} strokeWidth="20" strokeDasharray={`${getStrokeDash(13)} ${circumference}`} strokeDashoffset={`-${getStrokeDash(15)}`} strokeLinecap="round" />
-                </svg>
-                <div className="absolute w-full h-full transform transition-transform duration-150 preserve-3d" style={{ transform: `rotate(${((Math.min(cycleDay, 28) - 1) / 28) * 360}deg)`, cursor: isDevMode ? (isDragging ? 'grabbing' : 'grab') : 'default' }} onMouseDown={(e) => {
-                  if (!isDevMode) return;
-                  e.preventDefault();
-                  setIsDragging(true);
-                }} onTouchStart={() => {
-                  if (isDevMode) setIsDragging(true);
-                }}>
-                  <div className={`absolute top-0.5 left-1/2 -translate-x-1/2 w-8 h-8 bg-slate-900 rounded-full border-4 border-white shadow-2xl z-20 transition-transform ${isDragging ? 'scale-125 ring-[12px] ring-slate-900/10' : (isDevMode ? 'hover:scale-110' : '')}`}><div className="w-full h-full flex items-center justify-center"><div className="w-1.5 h-1.5 bg-white/40 rounded-full"></div></div></div>
-                </div>
-                <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                  <div className={`w-40 h-40 rounded-full ${currentPhase.lightColor} flex flex-col items-center justify-center border-4 border-white shadow-inner transition-colors duration-700`}><span className="text-6xl font-black leading-none text-slate-900">{cycleDay}</span><span className="text-[11px] uppercase font-black tracking-[0.3em] text-slate-400 mt-2">Cycle Day</span></div>
-                </div>
-              </div>
-              {isDevMode && (
-                <div className="mt-8 text-center"><p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em] flex items-center gap-2"><ChevronLeft className="w-3 h-3" /> Drag knob to adjust <ChevronRight className="w-3 h-3" /></p></div>
-              )}
+              <CycleWheel 
+                cycleDay={cycleDay}
+                setCycleDay={setCycleDay}
+                setStartDate={setStartDate}
+                cycleData={cycleData}
+                currentPhase={currentPhase}
+                isDevMode={isDevMode}
+                isDragging={isDragging}
+                setIsDragging={setIsDragging}
+              />
               <div className="mt-12 grid grid-cols-1 gap-5 w-full">
                 {(() => {
                   const keys = ['menstrual', 'follicular', 'ovulation', 'luteal'];
@@ -402,7 +156,7 @@ const App: React.FC = () => {
                     ...keys.slice(0, currentIndex)
                   ];
                   return orderedKeys.map((key) => (
-                    <PhaseCard key={key} phase={(cycleData as any)[key]} phaseKey={key} isActive={currentPhaseKey === key} />
+                    <PhaseCard key={key} phase={(cycleData as any)[key]} isActive={currentPhaseKey === key} onClick={() => setSelectedPhase({ phase: (cycleData as any)[key], key })} />
                   ));
                 })()}
               </div>
