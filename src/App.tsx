@@ -7,8 +7,7 @@ import {
   Sun, 
   Sparkles, 
   Moon, 
-  ChevronLeft, 
-  Activity,
+  ChevronLeft,
   Target,
   ShieldAlert,
   Zap,
@@ -428,9 +427,11 @@ const App: React.FC = () => {
       <div className="max-w-6xl mx-auto">
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-8">
           <div className="space-y-1">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-slate-900 rounded-2xl flex items-center justify-center shadow-lg"><Activity className="w-6 h-6 text-white" /></div>
-              <h1 className="text-4xl font-black tracking-tight text-slate-900">Cycle Fuel</h1>
+            <div className="flex items-center gap-4">
+              <div className="w-16 h-16 bg-white rounded-[1.75rem] flex items-center justify-center shadow-md border border-slate-50 overflow-hidden group-hover:scale-110 transition-transform duration-500">
+                <img src="/logo.png" alt="Cycle Fuel Logo" className="w-full h-full object-contain scale-[1.3]" />
+              </div>
+              <h1 className="text-4xl font-black tracking-tight text-slate-900 group">Cycle Fuel</h1>
             </div>
             <p className="text-slate-500 font-medium ml-1">Phase-by-phase wellness and nutrition tracker.</p>
           </div>
