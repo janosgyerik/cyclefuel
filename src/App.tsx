@@ -395,7 +395,7 @@ const App: React.FC = () => {
               {isDevMode && (
                 <div className="mt-8 text-center"><p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em] flex items-center gap-2"><ChevronLeft className="w-3 h-3" /> Drag knob to adjust <ChevronRight className="w-3 h-3" /></p></div>
               )}
-              <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+              <div className="mt-12 grid grid-cols-1 gap-5 w-full">
                 {(() => {
                   const keys = ['menstrual', 'follicular', 'ovulation', 'luteal'];
                   const currentIndex = keys.indexOf(currentPhaseKey);
