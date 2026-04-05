@@ -25,6 +25,13 @@ const App: React.FC = () => {
   const [selectedPhase, setSelectedPhase] = useState<any>(null);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+  const [isDevMode, setIsDevMode] = useState(window.location.hash.includes('viewmode=dev'));
+  
+  useEffect(() => {
+    const handleHashChange = () => setIsDevMode(window.location.hash.includes('viewmode=dev'));
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
   
   const calendarRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
@@ -456,14 +463,22 @@ const App: React.FC = () => {
                   <circle cx="100" cy="100" r={radius} fill="none" stroke={cycleData.ovulation.color} strokeWidth="20" strokeDasharray={`${getStrokeDash(3)} ${circumference}`} strokeDashoffset={`-${getStrokeDash(12)}`} strokeLinecap="round" />
                   <circle cx="100" cy="100" r={radius} fill="none" stroke={cycleData.luteal.color} strokeWidth="20" strokeDasharray={`${getStrokeDash(13)} ${circumference}`} strokeDashoffset={`-${getStrokeDash(15)}`} strokeLinecap="round" />
                 </svg>
-                <div className="absolute w-full h-full transform transition-transform duration-150 preserve-3d" style={{ transform: `rotate(${((cycleDay - 1) / 28) * 360}deg)`, cursor: isDragging ? 'grabbing' : 'grab' }} onMouseDown={(e) => { e.preventDefault(); setIsDragging(true); }} onTouchStart={() => { setIsDragging(true); }}>
-                  <div className={`absolute top-0.5 left-1/2 -translate-x-1/2 w-8 h-8 bg-slate-900 rounded-full border-4 border-white shadow-2xl z-20 hover:scale-110 transition-transform ${isDragging ? 'scale-125 ring-[12px] ring-slate-900/10' : ''}`}><div className="w-full h-full flex items-center justify-center"><div className="w-1.5 h-1.5 bg-white/40 rounded-full"></div></div></div>
+                <div className="absolute w-full h-full transform transition-transform duration-150 preserve-3d" style={{ transform: `rotate(${((cycleDay - 1) / 28) * 360}deg)`, cursor: isDevMode ? (isDragging ? 'grabbing' : 'grab') : 'default' }} onMouseDown={(e) => { 
+                  if (!isDevMode) return;
+                  e.preventDefault(); 
+                  setIsDragging(true); 
+                }} onTouchStart={() => { 
+                  if (isDevMode) setIsDragging(true); 
+                }}>
+                  <div className={`absolute top-0.5 left-1/2 -translate-x-1/2 w-8 h-8 bg-slate-900 rounded-full border-4 border-white shadow-2xl z-20 transition-transform ${isDragging ? 'scale-125 ring-[12px] ring-slate-900/10' : (isDevMode ? 'hover:scale-110' : '')}`}><div className="w-full h-full flex items-center justify-center"><div className="w-1.5 h-1.5 bg-white/40 rounded-full"></div></div></div>
                 </div>
                 <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
                   <div className={`w-40 h-40 rounded-full ${currentPhase.lightColor} flex flex-col items-center justify-center border-4 border-white shadow-inner transition-colors duration-700`}><span className="text-6xl font-black leading-none text-slate-900">{cycleDay}</span><span className="text-[11px] uppercase font-black tracking-[0.3em] text-slate-400 mt-2">Cycle Day</span></div>
                 </div>
               </div>
-              <div className="mt-8 text-center"><p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em] flex items-center gap-2"><ChevronLeft className="w-3 h-3" /> Drag knob to adjust <ChevronRight className="w-3 h-3" /></p></div>
+              {isDevMode && (
+                <div className="mt-8 text-center"><p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em] flex items-center gap-2"><ChevronLeft className="w-3 h-3" /> Drag knob to adjust <ChevronRight className="w-3 h-3" /></p></div>
+              )}
               <div className="mt-12 grid grid-cols-2 gap-5 w-full">
                 {Object.entries(cycleData).map(([key, p]) => (
                   <PhaseCard key={key} phase={p} phaseKey={key} isActive={currentPhaseKey === key} />
