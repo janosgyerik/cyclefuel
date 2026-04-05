@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { 
-  Calendar as CalendarIcon, 
-  Utensils, 
-  ChevronRight, 
-  Droplet, 
-  Sun, 
-  Sparkles, 
-  Moon, 
+import {
+  Calendar as CalendarIcon,
+  Utensils,
+  ChevronRight,
+  Droplet,
+  Sun,
+  Sparkles,
+  Moon,
   ChevronLeft,
   Target,
   ShieldAlert,
@@ -28,19 +28,19 @@ const App: React.FC = () => {
     const saved = localStorage.getItem('cycleStartDate');
     return saved || formatDate(new Date());
   });
-  
+
   const [cycleDay, setCycleDay] = useState(1);
   const [selectedPhase, setSelectedPhase] = useState<any>(null);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [isDevMode, setIsDevMode] = useState(window.location.hash.includes('viewmode=dev'));
-  
+
   useEffect(() => {
     const handleHashChange = () => setIsDevMode(window.location.hash.includes('viewmode=dev'));
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
-  
+
   const calendarRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
 
@@ -130,7 +130,7 @@ const App: React.FC = () => {
   useEffect(() => {
     const onMouseMove = (e: MouseEvent) => handleMove(e.clientX, e.clientY);
     const onMouseUp = () => setIsDragging(false);
-    const onTouchMove = (e: TouchEvent) => { 
+    const onTouchMove = (e: TouchEvent) => {
       if (e.touches[0]) {
         e.preventDefault();
         handleMove(e.touches[0].clientX, e.touches[0].clientY);
@@ -166,27 +166,27 @@ const App: React.FC = () => {
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const firstDayOfMonth = new Date(year, month, 1).getDay();
     const monthName = viewDate.toLocaleString('default', { month: 'long' });
-    
+
     const days = [];
     for (let i = 0; i < firstDayOfMonth; i++) days.push(null);
     for (let i = 1; i <= daysInMonth; i++) days.push(i);
-    
+
     const changeMonth = (offset: number) => setViewDate(new Date(year, month + offset, 1));
     const isSelected = (day: number) => {
       const d = new Date(selectedDate);
       return d.getDate() === day && d.getMonth() === month && d.getFullYear() === year;
     };
-    
+
     const todayLocal = new Date();
     todayLocal.setHours(0, 0, 0, 0);
     const minDateLocal = new Date(todayLocal);
     minDateLocal.setMonth(todayLocal.getMonth() - 2);
-    
+
     const isDateDisabled = (day: number) => {
       const d = new Date(year, month, day);
       return d > todayLocal || d < minDateLocal;
     };
-    
+
     return (
       <div className="p-5 w-72">
         <div className="flex justify-between items-center mb-6">
@@ -206,13 +206,12 @@ const App: React.FC = () => {
                 <button
                   disabled={isDateDisabled(day)}
                   onClick={() => onSelect(formatDate(new Date(year, month, day)))}
-                  className={`w-8 h-8 text-xs font-bold rounded-full transition-all ${
-                    isSelected(day) 
-                      ? 'bg-slate-900 text-white shadow-md' 
-                      : isDateDisabled(day)
-                        ? 'text-slate-200 cursor-not-allowed'
-                        : 'text-slate-600 hover:bg-slate-100'
-                  }`}
+                  className={`w-8 h-8 text-xs font-bold rounded-full transition-all ${isSelected(day)
+                    ? 'bg-slate-900 text-white shadow-md'
+                    : isDateDisabled(day)
+                      ? 'text-slate-200 cursor-not-allowed'
+                      : 'text-slate-600 hover:bg-slate-100'
+                    }`}
                 >
                   {day}
                 </button>
@@ -263,23 +262,23 @@ const App: React.FC = () => {
             <p className="text-slate-600 font-bold leading-relaxed max-w-xl mb-6">{phase.summaryText}</p>
           )}
           <div className="flex flex-wrap gap-2">
-             {phase.focusOn.map((item: string, i: number) => (
-               <span key={i} className={`text-[10px] font-black uppercase px-3 py-1.5 rounded-xl border ${phase.lightColor} ${phase.textColor} ${phase.accentColor}`}>+ {item}</span>
-             ))}
+            {phase.focusOn.map((item: string, i: number) => (
+              <span key={i} className={`text-[10px] font-black uppercase px-3 py-1.5 rounded-xl border ${phase.lightColor} ${phase.textColor} ${phase.accentColor}`}>+ {item}</span>
+            ))}
           </div>
         </div>
         <div className={`${phase.lightColor} w-24 h-24 rounded-[3rem] flex items-center justify-center border-4 border-white shadow-sm transition-colors duration-700 shrink-0`}>
-           {phaseKey === 'menstrual' && <Droplet className="w-12 h-12 text-[#B37455]" />}
-           {phaseKey === 'follicular' && <Sparkles className="w-12 h-12 text-[#CEAF4E]" />}
-           {phaseKey === 'ovulation' && <Sun className="w-12 h-12 text-[#8AA773]" />}
-           {phaseKey === 'luteal' && <Moon className="w-12 h-12 text-[#7C9FC3]" />}
+          {phaseKey === 'menstrual' && <Droplet className="w-12 h-12 text-[#B37455]" />}
+          {phaseKey === 'follicular' && <Sparkles className="w-12 h-12 text-[#CEAF4E]" />}
+          {phaseKey === 'ovulation' && <Sun className="w-12 h-12 text-[#8AA773]" />}
+          {phaseKey === 'luteal' && <Moon className="w-12 h-12 text-[#7C9FC3]" />}
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-         <InstructionCard title="Focus On" items={phase.focusItems} type="focus" />
-         <InstructionCard title="Limit / Avoid" items={phase.avoidItems} type="avoid" />
-         <InstructionCard title="Daily Habits" items={phase.otherItems} type="other" />
+        <InstructionCard title="Focus On" items={phase.focusItems} type="focus" />
+        <InstructionCard title="Limit / Avoid" items={phase.avoidItems} type="avoid" />
+        <InstructionCard title="Daily Habits" items={phase.otherItems} type="other" />
       </div>
 
       <div className="pt-20 border-t border-slate-100/60">
@@ -326,11 +325,10 @@ const App: React.FC = () => {
   const getStrokeDash = (days: number) => (days / 28) * circumference;
 
   const PhaseCard: React.FC<{ phase: any; phaseKey: string; isActive: boolean }> = ({ phase, phaseKey, isActive }) => (
-    <div 
+    <div
       onClick={() => setSelectedPhase({ phase, key: phaseKey })}
-      className={`p-6 rounded-[2rem] cursor-pointer transition-all duration-500 border-2 ${
-        isActive ? `${phase.bgClass} text-white shadow-2xl scale-[1.02] border-white/20` : 'bg-white border-slate-100 hover:border-slate-200 hover:shadow-lg'
-      }`}
+      className={`p-6 rounded-[2rem] cursor-pointer transition-all duration-500 border-2 ${isActive ? `${phase.bgClass} text-white shadow-2xl scale-[1.02] border-white/20` : 'bg-white border-slate-100 hover:border-slate-200 hover:shadow-lg'
+        }`}
     >
       <div className="mb-3">
         <h3 className="font-black text-base md:text-sm uppercase tracking-wider mb-1">{phase.name}</h3>
@@ -351,8 +349,8 @@ const App: React.FC = () => {
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-8">
           <div className="space-y-1">
             <div className="flex items-center gap-4">
-              <div className="w-16 h-16 bg-white rounded-[1.75rem] flex items-center justify-center shadow-md border border-slate-50 overflow-hidden group-hover:scale-110 transition-transform duration-500">
-                <img src="logo.png" alt="Cycle Fuel Logo" className="w-full h-full object-contain scale-[1.3]" />
+              <div className="w-16 h-16 bg-white rounded-[1.75rem] flex items-center justify-center shadow-md border border-slate-50 hover:scale-105 transition-transform duration-500">
+                <img src="logo.png" alt="Cycle Fuel Logo" className="w-full h-full object-contain" />
               </div>
               <h1 className="text-4xl font-black tracking-tight text-slate-900 group">Cycle Fuel</h1>
             </div>
@@ -379,12 +377,12 @@ const App: React.FC = () => {
                   <circle cx="100" cy="100" r={radius} fill="none" stroke={cycleData.ovulation.color} strokeWidth="20" strokeDasharray={`${getStrokeDash(3)} ${circumference}`} strokeDashoffset={`-${getStrokeDash(12)}`} strokeLinecap="round" />
                   <circle cx="100" cy="100" r={radius} fill="none" stroke={cycleData.luteal.color} strokeWidth="20" strokeDasharray={`${getStrokeDash(13)} ${circumference}`} strokeDashoffset={`-${getStrokeDash(15)}`} strokeLinecap="round" />
                 </svg>
-                <div className="absolute w-full h-full transform transition-transform duration-150 preserve-3d" style={{ transform: `rotate(${((Math.min(cycleDay, 28) - 1) / 28) * 360}deg)`, cursor: isDevMode ? (isDragging ? 'grabbing' : 'grab') : 'default' }} onMouseDown={(e) => { 
+                <div className="absolute w-full h-full transform transition-transform duration-150 preserve-3d" style={{ transform: `rotate(${((Math.min(cycleDay, 28) - 1) / 28) * 360}deg)`, cursor: isDevMode ? (isDragging ? 'grabbing' : 'grab') : 'default' }} onMouseDown={(e) => {
                   if (!isDevMode) return;
-                  e.preventDefault(); 
-                  setIsDragging(true); 
-                }} onTouchStart={() => { 
-                  if (isDevMode) setIsDragging(true); 
+                  e.preventDefault();
+                  setIsDragging(true);
+                }} onTouchStart={() => {
+                  if (isDevMode) setIsDragging(true);
                 }}>
                   <div className={`absolute top-0.5 left-1/2 -translate-x-1/2 w-8 h-8 bg-slate-900 rounded-full border-4 border-white shadow-2xl z-20 transition-transform ${isDragging ? 'scale-125 ring-[12px] ring-slate-900/10' : (isDevMode ? 'hover:scale-110' : '')}`}><div className="w-full h-full flex items-center justify-center"><div className="w-1.5 h-1.5 bg-white/40 rounded-full"></div></div></div>
                 </div>
@@ -425,12 +423,12 @@ const App: React.FC = () => {
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8" onClick={() => setSelectedPhase(null)}>
             <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-xl animate-in fade-in duration-500"></div>
             <div className="bg-white w-full max-w-4xl rounded-[4rem] p-10 md:p-14 shadow-2xl relative z-10 overflow-y-auto max-h-[90vh] animate-in zoom-in slide-in-from-bottom-10 duration-500" onClick={e => e.stopPropagation()}>
-               <div className="sticky top-0 flex justify-end z-50 pointer-events-none -mb-12">
-                 <button onClick={() => setSelectedPhase(null)} className="pointer-events-auto p-4 bg-white/90 backdrop-blur-md hover:bg-slate-100 rounded-full shadow-xl border border-slate-100 transition-all group transform hover:scale-110 active:scale-95">
-                   <X className="w-6 h-6 text-slate-500 group-hover:rotate-90 transition-transform" />
-                 </button>
-               </div>
-               <DetailView phase={selectedPhase.phase} phaseKey={selectedPhase.key} />
+              <div className="sticky top-0 flex justify-end z-50 pointer-events-none -mb-12">
+                <button onClick={() => setSelectedPhase(null)} className="pointer-events-auto p-4 bg-white/90 backdrop-blur-md hover:bg-slate-100 rounded-full shadow-xl border border-slate-100 transition-all group transform hover:scale-110 active:scale-95">
+                  <X className="w-6 h-6 text-slate-500 group-hover:rotate-90 transition-transform" />
+                </button>
+              </div>
+              <DetailView phase={selectedPhase.phase} phaseKey={selectedPhase.key} />
             </div>
           </div>
         )}
