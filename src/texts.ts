@@ -1,14 +1,46 @@
 export interface PhaseContent {
+  // The display name of the phase (e.g., "Menstrual").
+  // Used in headers and maps.
   name: string;
+
+  // A short clinical or focus-based subtitle.
+  // Used in the DetailView and PhaseCard.
   subtitle: string;
+
+  // An optional high-level summary paragraph.
+  // Shown in the DetailView if provided.
   summaryText: string;
+
+  // Detailed bullet points for nutrition and focus.
+  // Used in InstructionCard and to derive the cardSummary.
   focusItems: string[];
+
+  // Detailed bullet points for things to limit or avoid.
+  // Used in InstructionCard and to derive the cardSummary.
   avoidItems: string[];
+
+  // Detailed bullet points for lifestyle habits and daily patterns.
+  // Used in InstructionCard and to derive the cardSummary.
   otherItems: string[];
+
+  // Short keyword tags for quick scanning.
+  // Displayed as pills in DetailView and PhaseCard.
   focusOn: string[];
+
+  // Short keyword tags for items to avoid.
+  // Currently available for future UI expansions.
   avoid: string[];
+
+  // The heading for the Mind & Body section (e.g., "Nourish your body").
+  // Used in DetailView.
   moodTitle: string;
+
+  // Numbered list of wellness and lifestyle tips.
+  // Displayed in the Mind & Body Guidance section.
   moodTips: string[];
+
+  // Structured daily meal suggestions.
+  // Displayed in the Example Meal Plan section.
   meals: {
     breakfast: string;
     lunch: string;
