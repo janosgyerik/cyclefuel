@@ -156,3 +156,34 @@ export const phaseTexts: Record<string, PhaseContent> = {
     }
   }
 };
+
+export interface TipsCollection {
+  // The display name of the tips collection (e.g., "General tips").
+  name: string;
+
+  // The content of bullet points.
+  items: string[];
+}
+
+export const tips: Record<string, TipsCollection> = {
+  generalTips: {
+    name: "General tips",
+    items: [
+      "Stay hydrated and avoid fizzy drinks that may leave you bloated.",
+      "Magnesium",
+      "Vitamin C, anti-oxidants to support iron absorption, immune function and collagen production.",
+      "Vitamins C and K support estrogen metabolism.",
+      "Vitamin E important for hormone regulation"
+    ]
+  },
+  extras: {
+    name: "Extras",
+    items: [
+      "Reduce Body Fat: Fat cells produce and store estrogen, so reducing overall body fat can lower levels.",
+      "Manage Stress: High stress increases cortisol, which can disrupt the estrogen-progesterone balance.",
+      "Limit Alcohol and Caffeine: Alcohol impairs the liver's ability to metabolize estrogen.",
+      "Reduce Xenoestrogens: exposure to BPA toxins (avoid plastic food containers).",
+      "Sleep: Ensure 7-9 hours of sleep per night to maintain hormonal rhythm."
+    ]
+  }
+};
