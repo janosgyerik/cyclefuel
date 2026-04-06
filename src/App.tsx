@@ -130,7 +130,7 @@ const App: React.FC = () => {
               <div className={`p-2 rounded-xl transition-colors ${isCalendarOpen ? 'bg-slate-900 text-white' : 'bg-slate-50 text-slate-400 group-hover:text-slate-600'}`}><CalendarIcon className="w-5 h-5" /></div>
               <div className="flex flex-col items-start"><span className="text-[11px] uppercase font-black text-slate-400 tracking-[0.2em] mb-0.5">Start Date</span><span className="text-sm font-bold text-slate-700">{new Date(startDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</span></div>
             </button>
-            {isCalendarOpen && <div className="absolute right-0 mt-3 z-50 bg-white shadow-[0_30px_100px_rgba(0,0,0,0.15)] rounded-[3rem] border border-slate-100 overflow-hidden animate-in fade-in zoom-in slide-in-from-top-4 duration-300 origin-top-right"><CustomCalendar selectedDate={startDate} onSelect={(date) => { setStartDate(date); setIsCalendarOpen(false); }} /></div>}
+            {isCalendarOpen && <div className="absolute left-0 md:left-auto md:right-0 mt-3 z-50 bg-white shadow-[0_30px_100px_rgba(0,0,0,0.15)] rounded-[3rem] border border-slate-100 overflow-hidden animate-in fade-in zoom-in slide-in-from-top-4 duration-300 origin-top-left md:origin-top-right"><CustomCalendar selectedDate={startDate} onSelect={(date) => { setStartDate(date); setIsCalendarOpen(false); }} /></div>}
           </div>
         </header>
 
