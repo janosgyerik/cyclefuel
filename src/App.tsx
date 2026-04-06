@@ -8,6 +8,7 @@ import CustomCalendar from './components/CustomCalendar';
 import DetailView from './components/DetailView';
 import PhaseCard from './components/PhaseCard';
 import CycleWheel from './components/CycleWheel';
+import TipsSection from './components/TipsSection';
 
 const App: React.FC = () => {
   const formatDate = (date: Date) => {
@@ -171,6 +172,10 @@ const App: React.FC = () => {
               </div>
             </section>
           </div>
+        </div>
+
+        <div className="mt-12">
+          <TipsSection />
         </div>
 
         {selectedPhase && (
