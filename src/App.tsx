@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import {
   Calendar as CalendarIcon,
-  X
+  X,
+  ArrowLeft
 } from 'lucide-react';
 import { phaseTexts, PhaseContent } from './texts';
 import CustomCalendar from './components/CustomCalendar';
@@ -24,14 +25,23 @@ const App: React.FC = () => {
   });
 
   const [cycleDay, setCycleDay] = useState(1);
-  const [selectedPhase, setSelectedPhase] = useState<any>(null);
+  const [selectedPhaseKey, setSelectedPhaseKey] = useState<string | null>(null);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
-  const [isDevMode, setIsDevMode] = useState(window.location.hash.includes('viewmode=dev'));
+  const [isDevMode, setIsDevMode] = useState(false);
 
   useEffect(() => {
-    const handleHashChange = () => setIsDevMode(window.location.hash.includes('viewmode=dev'));
+    const handleHashChange = () => {
+      setIsDevMode(window.location.hash.includes('viewmode=dev'));
+      const match = window.location.hash.match(/#phase-([a-z]+)/);
+      if (match) {
+        setSelectedPhaseKey(match[1]);
+      } else {
+        setSelectedPhaseKey(null);
+      }
+    };
     window.addEventListener('hashchange', handleHashChange);
+    handleHashChange(); // Run initial parsing
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
@@ -50,13 +60,13 @@ const App: React.FC = () => {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        if (selectedPhase) setSelectedPhase(null);
+        if (selectedPhaseKey) window.history.back();
         else if (isCalendarOpen) setIsCalendarOpen(false);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedPhase, isCalendarOpen]);
+  }, [selectedPhaseKey, isCalendarOpen]);
 
   const cycleData = useMemo(() => {
     const visualData: Record<string, any> = {
@@ -112,6 +122,7 @@ const App: React.FC = () => {
   }, [cycleDay]);
 
   const currentPhase = cycleData[currentPhaseKey as keyof typeof cycleData];
+  const selectedPhaseData = selectedPhaseKey ? (cycleData as any)[selectedPhaseKey] : null;
 
   return (
     <div className="min-h-screen p-4 md:p-8 lg:p-12 animate-in fade-in duration-700">
@@ -157,7 +168,7 @@ const App: React.FC = () => {
                     ...keys.slice(0, currentIndex)
                   ];
                   return orderedKeys.map((key) => (
-                    <PhaseCard key={key} phase={(cycleData as any)[key]} isActive={currentPhaseKey === key} onClick={() => setSelectedPhase({ phase: (cycleData as any)[key], key })} />
+                    <PhaseCard key={key} phase={(cycleData as any)[key]} isActive={currentPhaseKey === key} onClick={() => window.location.hash = `#phase-${key}`} />
                   ));
                 })()}
               </div>
@@ -178,16 +189,18 @@ const App: React.FC = () => {
           <TipsSection />
         </div>
 
-        {selectedPhase && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8" onClick={() => setSelectedPhase(null)}>
-            <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-xl animate-in fade-in duration-500"></div>
-            <div className="bg-white w-full max-w-4xl rounded-[4rem] p-10 md:p-14 shadow-2xl relative z-10 overflow-y-auto max-h-[90vh] animate-in zoom-in slide-in-from-bottom-10 duration-500" onClick={e => e.stopPropagation()}>
-              <div className="sticky top-0 flex justify-end z-50 pointer-events-none -mb-12">
-                <button onClick={() => setSelectedPhase(null)} className="pointer-events-auto p-4 bg-white/90 backdrop-blur-md hover:bg-slate-100 rounded-full shadow-xl border border-slate-100 transition-all group transform hover:scale-110 active:scale-95">
-                  <X className="w-6 h-6 text-slate-500 group-hover:rotate-90 transition-transform" />
-                </button>
-              </div>
-              <DetailView phase={selectedPhase.phase} phaseKey={selectedPhase.key} />
+        {selectedPhaseKey && selectedPhaseData && (
+          <div className="fixed inset-0 z-[100] bg-white overflow-y-auto animate-in slide-in-from-right-8 duration-300">
+            <div className="sticky top-0 flex justify-between items-center p-4 md:p-6 bg-white/90 backdrop-blur-md z-50 border-b border-slate-50">
+              <button onClick={() => window.history.back()} className="p-3 bg-white hover:bg-slate-50 rounded-full border border-slate-100 transition-all active:scale-95 text-slate-500 shadow-sm transition-shadow hover:shadow">
+                <ArrowLeft className="w-5 h-5 md:w-6 md:h-6" />
+              </button>
+              <button onClick={() => window.history.back()} className="p-3 bg-white hover:bg-slate-50 rounded-full border border-slate-100 transition-all active:scale-95 text-slate-500 shadow-sm transition-shadow hover:shadow">
+                <X className="w-5 h-5 md:w-6 md:h-6" />
+              </button>
+            </div>
+            <div className="p-6 md:p-12 max-w-4xl mx-auto pt-4 md:pt-8 min-h-screen">
+              <DetailView phase={selectedPhaseData} phaseKey={selectedPhaseKey} />
             </div>
           </div>
         )}
