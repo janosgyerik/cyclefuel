@@ -3,7 +3,7 @@ import React from 'react';
 const PhaseCard: React.FC<{ phase: any; isActive: boolean; onClick: () => void }> = ({ phase, isActive, onClick }) => (
   <div
     onClick={onClick}
-    className={`p-6 rounded-[2rem] cursor-pointer transition-all duration-500 border-2 ${isActive ? `${phase.bgClass} text-white shadow-2xl scale-[1.02] border-white/20` : 'bg-white border-slate-100 hover:border-slate-200 hover:shadow-lg'
+    className={`p-6 rounded-[2rem] cursor-pointer transition-all duration-500 border-2 ${isActive ? `${phase.bgClass} text-white shadow-2xl scale-[1.02] border-white/20` : `bg-white ${phase.borderColor} hover:shadow-lg`
       }`}
   >
     <div className="mb-3">

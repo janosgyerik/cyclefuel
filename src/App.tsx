@@ -70,10 +70,10 @@ const App: React.FC = () => {
 
   const cycleData = useMemo(() => {
     const visualData: Record<string, any> = {
-      menstrual: { days: [1, 5], color: "#B37455", bgClass: "bg-[#B37455]", textColor: "text-[#B37455]", lightColor: "bg-[#B37455]/10", accentColor: "border-[#B37455]/20" },
-      follicular: { days: [6, 12], color: "#CEAF4E", bgClass: "bg-[#CEAF4E]", textColor: "text-[#CEAF4E]", lightColor: "bg-[#CEAF4E]/10", accentColor: "border-[#CEAF4E]/20" },
-      ovulation: { days: [13, 15], color: "#8AA773", bgClass: "bg-[#8AA773]", textColor: "text-[#8AA773]", lightColor: "bg-[#8AA773]/10", accentColor: "border-[#8AA773]/20" },
-      luteal: { days: [16, 28], color: "#7C9FC3", bgClass: "bg-[#7C9FC3]", textColor: "text-[#7C9FC3]", lightColor: "bg-[#7C9FC3]/10", accentColor: "border-[#7C9FC3]/20" }
+      menstrual: { days: [1, 5], color: "#B37455", bgClass: "bg-[#B37455]", textColor: "text-[#B37455]", lightColor: "bg-[#B37455]/10", accentColor: "border-[#B37455]/20", borderColor: "border-[#B37455]" },
+      follicular: { days: [6, 12], color: "#CEAF4E", bgClass: "bg-[#CEAF4E]", textColor: "text-[#CEAF4E]", lightColor: "bg-[#CEAF4E]/10", accentColor: "border-[#CEAF4E]/20", borderColor: "border-[#CEAF4E]" },
+      ovulation: { days: [13, 15], color: "#8AA773", bgClass: "bg-[#8AA773]", textColor: "text-[#8AA773]", lightColor: "bg-[#8AA773]/10", accentColor: "border-[#8AA773]/20", borderColor: "border-[#8AA773]" },
+      luteal: { days: [16, 28], color: "#7C9FC3", bgClass: "bg-[#7C9FC3]", textColor: "text-[#7C9FC3]", lightColor: "bg-[#7C9FC3]/10", accentColor: "border-[#7C9FC3]/20", borderColor: "border-[#7C9FC3]" }
     };
 
     const generateSummary = (content: PhaseContent) => {
