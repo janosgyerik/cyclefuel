@@ -146,8 +146,8 @@ const App: React.FC = () => {
           </div>
         </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          <div className="lg:col-span-5 flex flex-col gap-8">
+        <div className="flex justify-center">
+          <div className="w-full max-w-4xl flex flex-col gap-8">
             <section className="bg-white p-6 md:p-12 rounded-3xl md:rounded-[4rem] shadow-sm border border-slate-100 flex flex-col items-center relative overflow-hidden group">
               <CycleWheel 
                 cycleDay={cycleDay}
@@ -159,7 +159,7 @@ const App: React.FC = () => {
                 isDragging={isDragging}
                 setIsDragging={setIsDragging}
               />
-              <div className="mt-12 grid grid-cols-1 gap-5 w-full">
+              <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
                 {(() => {
                   const keys = ['menstrual', 'follicular', 'ovulation', 'luteal'];
                   const currentIndex = keys.indexOf(currentPhaseKey);
@@ -171,15 +171,6 @@ const App: React.FC = () => {
                     <PhaseCard key={key} phase={(cycleData as any)[key]} isActive={currentPhaseKey === key} onClick={() => window.location.hash = `#phase-${key}`} />
                   ));
                 })()}
-              </div>
-            </section>
-          </div>
-
-          <div className="lg:col-span-7 space-y-8">
-            <section className="bg-white p-6 md:p-12 rounded-3xl md:rounded-[4rem] shadow-sm border border-slate-100 min-h-full flex flex-col relative overflow-hidden">
-              <div className={`absolute top-0 right-0 w-96 h-96 ${currentPhase.lightColor} blur-[120px] -mr-48 -mt-48 transition-colors duration-1000`}></div>
-              <div className="relative flex-grow">
-                <DetailView phase={currentPhase} phaseKey={currentPhaseKey} />
               </div>
             </section>
           </div>
